@@ -17,6 +17,7 @@ public class ZType {
     public static void main(String[] args) {
         Lobby lobby = new Lobby();
         lobby.main();
+        //tes
     }
     
 }
