@@ -18,12 +18,12 @@ import javax.swing.JPanel;
  *
  * @author Trevis Artagrantdy K
  */
-public class Lobby extends javax.swing.JFrame {
+public class Game extends javax.swing.JFrame {
 
     /**
      * Creates new form Lobby
      */
-    public Lobby() {
+    public Game() {
         initComponents();
         initGameName();
         initMenuGame();
@@ -77,6 +77,10 @@ public class Lobby extends javax.swing.JFrame {
         jDesktopPane1.add(exitLabel);
         
         JFrame temp = this;
+        
+        //Dibawah ini mouselistener itu untuk animasi mouse
+        //Apabila diklik maka menuju halaman tujuan yang diklik
+        //Apabila dihover maka akan berubah warna
         exitLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -150,7 +154,17 @@ public class Lobby extends javax.swing.JFrame {
         });
    }
   
-
+    public void initPlayGame(){
+        ;
+    }
+    
+    public void initScoreBoard(){
+        
+    }
+    
+    public void initShop(){
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -209,20 +223,21 @@ public class Lobby extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Lobby.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Lobby.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Lobby.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Lobby.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Game.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Lobby().setVisible(true);
+                new Game().setVisible(true);
             }
         });
     }
