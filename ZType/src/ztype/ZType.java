@@ -17,7 +17,6 @@ public class ZType {
     public static void main(String[] args) {
         Game play = new Game();
         play.main();
-        //tes
     }
     
 }

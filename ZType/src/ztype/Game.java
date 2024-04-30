@@ -6,9 +6,11 @@
 package ztype;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,10 +21,8 @@ import javax.swing.JPanel;
  * @author Trevis Artagrantdy K
  */
 public class Game extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Lobby
-     */
+    ArrayList<Component> listComponent = new ArrayList<>();
+    
     public Game() {
         initComponents();
         initGameName();
@@ -37,6 +37,7 @@ public class Game extends javax.swing.JFrame {
         judul.setBounds(150,30,250,100);
         judul.setFont(font);
         jDesktopPane1.add(judul);
+        listComponent.add(judul);
     }
     
     //Procedure dibawah ini untuk init label bagian menu
@@ -51,6 +52,7 @@ public class Game extends javax.swing.JFrame {
         playLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         playLabel.setFont(fontmenu);
         jDesktopPane1.add(playLabel);
+        listComponent.add(playLabel);
         
         JLabel scoreLabel = new JLabel();
         scoreLabel.setText("Score Board");
@@ -59,6 +61,7 @@ public class Game extends javax.swing.JFrame {
         scoreLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         scoreLabel.setFont(fontmenu);
         jDesktopPane1.add(scoreLabel);
+        listComponent.add(scoreLabel);
         
         JLabel shopLabel = new JLabel();
         shopLabel.setText("Shop");
@@ -67,6 +70,7 @@ public class Game extends javax.swing.JFrame {
         shopLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         shopLabel.setFont(fontmenu);
         jDesktopPane1.add(shopLabel);
+        listComponent.add(shopLabel);
         
         JLabel exitLabel = new JLabel();
         exitLabel.setText("Exit");
@@ -75,6 +79,7 @@ public class Game extends javax.swing.JFrame {
         exitLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         exitLabel.setFont(fontmenu);
         jDesktopPane1.add(exitLabel);
+        listComponent.add(exitLabel);
         
         JFrame temp = this;
         
@@ -102,8 +107,8 @@ public class Game extends javax.swing.JFrame {
         playLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.exit(0);
-                temp.dispose();
+                initPlayGame();
+                
             }
             
             @Override
@@ -155,7 +160,16 @@ public class Game extends javax.swing.JFrame {
    }
   
     public void initPlayGame(){
-        ;
+        for (int i = 0; i < listComponent.size(); i++) {
+            jDesktopPane1.remove(listComponent.get(i));
+        }
+        
+        for (int i = 0; i < listComponent.size(); i++) {
+            listComponent.remove(i);
+        }
+        
+        jDesktopPane1.revalidate();
+        jDesktopPane1.repaint();
     }
     
     public void initScoreBoard(){
