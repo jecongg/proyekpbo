@@ -26,13 +26,18 @@ public class Lobby extends javax.swing.JFrame {
     
     public void initGameName(){
         JLabel judul = new JLabel();
-        Font font = new Font("Arial", Font.BOLD, 70);
+        Font font = new Font("Arial", Font.BOLD, 60);
         judul.setText("ZTYPE");
         judul.setForeground(Color.WHITE);
-        judul.setBounds(185,50,250,250);
+        judul.setBounds(150,30,250,100);
         judul.setFont(font);
         jDesktopPane1.add(judul);
     }
+    
+//    public void initMenuGame(){
+//        JLabel play
+//    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,11 +58,11 @@ public class Lobby extends javax.swing.JFrame {
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 750, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -68,7 +73,7 @@ public class Lobby extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
