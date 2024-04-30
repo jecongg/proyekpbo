@@ -7,7 +7,11 @@ package ztype;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -22,6 +26,7 @@ public class Lobby extends javax.swing.JFrame {
     public Lobby() {
         initComponents();
         initGameName();
+        initMenuGame();
     }
     
     public void initGameName(){
@@ -34,12 +39,117 @@ public class Lobby extends javax.swing.JFrame {
         jDesktopPane1.add(judul);
     }
     
+    //Procedure dibawah ini untuk init label bagian menu
+    //Ada new game, score board, shop, exit
+    //Apabila diclick maka akan berjalan sesuai menunya
     public void initMenuGame(){
-        JLabel play = new JLabel();
-        Font fontplay = new Font ("TImes New Roman", Font.PLAIN, 40);
-        play.setText("New Game");
+        JLabel playLabel = new JLabel();
+        Font fontmenu = new Font ("TImes New Roman", Font.PLAIN, 30);
+        playLabel.setText("New Game");
+        playLabel.setForeground(Color.WHITE);
+        playLabel.setBounds(170,350, 150, 20);
+        playLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+        playLabel.setFont(fontmenu);
+        jDesktopPane1.add(playLabel);
         
+        JLabel scoreLabel = new JLabel();
+        scoreLabel.setText("Score Board");
+        scoreLabel.setForeground(Color.WHITE);
+        scoreLabel.setBounds(170,400,150,20);
+        scoreLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+        scoreLabel.setFont(fontmenu);
+        jDesktopPane1.add(scoreLabel);
+        
+        JLabel shopLabel = new JLabel();
+        shopLabel.setText("Shop");
+        shopLabel.setForeground(Color.WHITE);
+        shopLabel.setBounds(170,450,150,20);
+        shopLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+        shopLabel.setFont(fontmenu);
+        jDesktopPane1.add(shopLabel);
+        
+        JLabel exitLabel = new JLabel();
+        exitLabel.setText("Exit");
+        exitLabel.setForeground(Color.WHITE);
+        exitLabel.setBounds(170,500,150,20);
+        exitLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+        exitLabel.setFont(fontmenu);
+        jDesktopPane1.add(exitLabel);
+        
+        JFrame temp = this;
+        exitLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.exit(0);
+                temp.dispose();
+            }
+            
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                exitLabel.setForeground(Color.ORANGE); 
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                exitLabel.setForeground(Color.WHITE); 
+            }
+        });
+        
+        playLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.exit(0);
+                temp.dispose();
+            }
+            
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                playLabel.setForeground(Color.ORANGE); 
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                playLabel.setForeground(Color.WHITE); 
+            }
+        });
+        
+        shopLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.exit(0);
+                temp.dispose();
+            }
+            
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                shopLabel.setForeground(Color.ORANGE); 
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                shopLabel.setForeground(Color.WHITE); 
+            }
+        });
+        
+        scoreLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.exit(0);
+                temp.dispose();
+            }
+            
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                scoreLabel.setForeground(Color.ORANGE); 
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                scoreLabel.setForeground(Color.WHITE); 
+            }
+        });
    }
+  
 
 
     /**
