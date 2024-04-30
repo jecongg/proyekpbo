@@ -34,9 +34,12 @@ public class Lobby extends javax.swing.JFrame {
         jDesktopPane1.add(judul);
     }
     
-//    public void initMenuGame(){
-//        JLabel play
-//    }
+    public void initMenuGame(){
+        JLabel play = new JLabel();
+        Font fontplay = new Font ("TImes New Roman", Font.PLAIN, 40);
+        play.setText("New Game");
+        
+   }
 
 
     /**
