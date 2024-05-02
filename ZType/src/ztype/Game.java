@@ -34,7 +34,6 @@ public class Game extends javax.swing.JFrame {
     public Game() {
         initComponents();
         initGameName();
-        initMenuGame();
     }
     
     public void initGameName(){
@@ -46,12 +45,7 @@ public class Game extends javax.swing.JFrame {
         judul.setFont(font);
         jDesktopPane1.add(judul);
         listComponentMenu.add(judul);
-    }
-    
-    //Procedure dibawah ini untuk init label bagian menu
-    //Ada new game, score board, shop, exit
-    //Apabila diclick maka akan berjalan sesuai menunya
-    public void initMenuGame(){
+        
         JLabel playLabel = new JLabel();
         Font fontmenu = new Font ("TImes New Roman", Font.PLAIN, 30);
         playLabel.setText("New Game");
@@ -162,7 +156,12 @@ public class Game extends javax.swing.JFrame {
                 scoreLabel.setForeground(Color.WHITE); 
             }
         });
-   }
+    }
+    
+    //Procedure dibawah ini untuk init label bagian menu
+    //Ada new game, score board, shop, exit
+    //Apabila diclick maka akan berjalan sesuai menunya
+   
   
     public void initPlayGame(){
         for (int i = 0; i < listComponentMenu.size(); i++) {
@@ -215,7 +214,6 @@ public class Game extends javax.swing.JFrame {
                 }
                 
                 initGameName();
-                initMenuGame();
                 jDesktopPane1.revalidate();
                 jDesktopPane1.repaint();
             
@@ -261,7 +259,6 @@ public class Game extends javax.swing.JFrame {
                 }
                 
                 initGameName();
-                initMenuGame();
                 jDesktopPane1.revalidate();
                 jDesktopPane1.repaint();
             
