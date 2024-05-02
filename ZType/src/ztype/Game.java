@@ -190,6 +190,10 @@ public class Game extends javax.swing.JFrame {
         animateComponent(listComponentMenu,2);
         animateComponent(listComponentMenu,3);
         animateComponent(listComponentMenu,4);
+        jDesktopPane1.remove(listComponentMenu.get(1));
+        jDesktopPane1.remove(listComponentMenu.get(2));
+        jDesktopPane1.remove(listComponentMenu.get(3));
+        jDesktopPane1.remove(listComponentMenu.get(4));
        
     }
     
@@ -221,7 +225,10 @@ public class Game extends javax.swing.JFrame {
         animateComponent(listComponentMenu,2);
         animateComponent(listComponentMenu,3);
         animateComponent(listComponentMenu,4);
-        
+        jDesktopPane1.remove(listComponentMenu.get(1));
+        jDesktopPane1.remove(listComponentMenu.get(2));
+        jDesktopPane1.remove(listComponentMenu.get(3));
+        jDesktopPane1.remove(listComponentMenu.get(4));
         JLabel judulScore = new JLabel();
         judulScore.setText("SCORE");
         Font font = new Font("Arial", Font.BOLD, 60);
@@ -286,6 +293,10 @@ public class Game extends javax.swing.JFrame {
         animateComponent(listComponentMenu,2);
         animateComponent(listComponentMenu,3);
         animateComponent(listComponentMenu,4);
+        jDesktopPane1.remove(listComponentMenu.get(1));
+        jDesktopPane1.remove(listComponentMenu.get(2));
+        jDesktopPane1.remove(listComponentMenu.get(3));
+        jDesktopPane1.remove(listComponentMenu.get(4));
     
         JLabel judulShop = new JLabel();
         judulShop.setText("SHOP");
