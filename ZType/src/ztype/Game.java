@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  *
@@ -158,34 +159,68 @@ public class Game extends javax.swing.JFrame {
         });
     }
     
-    //Procedure dibawah ini untuk init label bagian menu
-    //Ada new game, score board, shop, exit
-    //Apabila diclick maka akan berjalan sesuai menunya
-   
-  
     public void initPlayGame(){
-        for (int i = 0; i < listComponentMenu.size(); i++) {
-            jDesktopPane1.remove(listComponentMenu.get(i));
-        }
-        
-        for (int i = 0; i < listComponentMenu.size(); i++) {
-            listComponentMenu.remove(i);
-        }
-        
-        jDesktopPane1.revalidate();
-        jDesktopPane1.repaint();
-        
-        
+//        for (int i = 0; i < listComponentMenu.size(); i++) {
+//            jDesktopPane1.remove(listComponentMenu.get(i));
+//        }
+//        
+//        for (int i = 0; i < listComponentMenu.size(); i++) {
+//            listComponentMenu.remove(i);
+//        }
+//        
+//        jDesktopPane1.revalidate();
+//        jDesktopPane1.repaint();
+
+ Timer timerJudul = new Timer(10, new ActionListener() {
+            int yPosJudul = listComponentMenu.get(0).getY(); 
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                yPosJudul -= 2;
+                listComponentMenu.get(0).setLocation(listComponentMenu.get(0).getX(), yPosJudul); 
+                if (yPosJudul <= -listComponentMenu.get(0).getHeight()) { 
+                    ((Timer) e.getSource()).stop();
+                    jDesktopPane1.remove(listComponentMenu.get(0));
+                }
+            }
+        });
+        timerJudul.start(); 
+
+        animateComponent(listComponentMenu,1);
+        animateComponent(listComponentMenu,2);
+        animateComponent(listComponentMenu,3);
+        animateComponent(listComponentMenu,4);
+       
     }
     
     public void initScoreBoard(){
-        for (int i = 0; i < listComponentMenu.size(); i++) {
-            jDesktopPane1.remove(listComponentMenu.get(i));
-        }
-        
-        for (int i = 0; i < listComponentMenu.size(); i++) {
-            listComponentMenu.remove(i);
-        }
+//        for (int i = 0; i < listComponentMenu.size(); i++) {
+//            jDesktopPane1.remove(listComponentMenu.get(i));
+//        }
+//        
+//        for (int i = 0; i < listComponentMenu.size(); i++) {
+//            listComponentMenu.remove(i);
+//        }
+
+        Timer timerJudul = new Timer(10, new ActionListener() {
+            int yPosJudul = listComponentMenu.get(0).getY(); 
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                yPosJudul -= 2;
+                listComponentMenu.get(0).setLocation(listComponentMenu.get(0).getX(), yPosJudul); 
+                if (yPosJudul <= -listComponentMenu.get(0).getHeight()) { 
+                    ((Timer) e.getSource()).stop();
+                    jDesktopPane1.remove(listComponentMenu.get(0));
+                }
+            }
+        });
+        timerJudul.start(); 
+
+        animateComponent(listComponentMenu,1);
+        animateComponent(listComponentMenu,2);
+        animateComponent(listComponentMenu,3);
+        animateComponent(listComponentMenu,4);
         
         JLabel judulScore = new JLabel();
         judulScore.setText("SCORE");
@@ -224,14 +259,34 @@ public class Game extends javax.swing.JFrame {
     }
     
     public void initShop(){
-         for (int i = 0; i < listComponentMenu.size(); i++) {
-            jDesktopPane1.remove(listComponentMenu.get(i));
-        }
+//         for (int i = 0; i < listComponentMenu.size(); i++) {
+//            jDesktopPane1.remove(listComponentMenu.get(i));
+//        }
+//        
+//        for (int i = 0; i < listComponentMenu.size(); i++) {
+//            listComponentMenu.remove(i);
+//        }
         
-        for (int i = 0; i < listComponentMenu.size(); i++) {
-            listComponentMenu.remove(i);
-        }
-        
+            Timer timerJudul = new Timer(10, new ActionListener() {
+            int yPosJudul = listComponentMenu.get(0).getY(); 
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                yPosJudul -= 2;
+                listComponentMenu.get(0).setLocation(listComponentMenu.get(0).getX(), yPosJudul); 
+                if (yPosJudul <= -listComponentMenu.get(0).getHeight()) { 
+                    ((Timer) e.getSource()).stop();
+                    jDesktopPane1.remove(listComponentMenu.get(0));
+                }
+            }
+        });
+        timerJudul.start(); 
+
+        animateComponent(listComponentMenu,1);
+        animateComponent(listComponentMenu,2);
+        animateComponent(listComponentMenu,3);
+        animateComponent(listComponentMenu,4);
+    
         JLabel judulShop = new JLabel();
         judulShop.setText("SHOP");
         Font font = new Font("Arial", Font.BOLD, 60);
@@ -266,6 +321,24 @@ public class Game extends javax.swing.JFrame {
         });
         jDesktopPane1.revalidate();
         jDesktopPane1.repaint();
+    }
+    
+    
+    private void animateComponent(ArrayList<Component> listComponent, int index) {
+        Timer timer = new Timer(10, new ActionListener() {
+            int yPos = listComponent.get(index).getY();
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                yPos += 2; 
+                listComponent.get(index).setLocation(listComponent.get(index).getX(), yPos);
+                if (yPos >= jDesktopPane1.getHeight()) {
+                    ((Timer) e.getSource()).stop();
+                    jDesktopPane1.remove(listComponent.get(index));
+                }
+            }
+        });
+        timer.start();
     }
 
     /**
