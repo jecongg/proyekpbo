@@ -5,6 +5,8 @@
  */
 package ztype;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author Trevis Artagrantdy K
@@ -16,6 +18,9 @@ public class ZType {
      */
     public static void main(String[] args) {
         Game play = new Game();
+        play.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        play.setResizable(false);
+        play.setTitle("ZType");
         play.main();
     }
     
