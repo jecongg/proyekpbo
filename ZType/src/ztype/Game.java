@@ -31,10 +31,17 @@ import javax.swing.Timer;
  * @author Trevis Artagrantdy K
  */
 public class Game extends javax.swing.JFrame {
-    ArrayList<Component> listComponentMenu = new ArrayList<>();
-    ArrayList<Component> listComponentPlay = new ArrayList<>();
-    ArrayList<Component> listComponentScore = new ArrayList<>();
-    ArrayList<Component> listComponentShop = new ArrayList<>();
+      JLabel judul;
+    JLabel playLabel;
+    JLabel scoreLabel;
+    JLabel shopLabel;
+    JLabel exitLabel;
+    
+    JLabel judulScore;
+    JButton backScore;
+    
+    JLabel judulShop;
+    JButton backShop;
     
     public Game() {
         initComponents();
@@ -42,16 +49,15 @@ public class Game extends javax.swing.JFrame {
     }
     
     public void initGameName(){
-        JLabel judul = new JLabel();
+        judul = new JLabel();
         Font font = new Font("Arial", Font.BOLD, 60);
         judul.setText("ZTYPE");
         judul.setForeground(Color.WHITE);
         judul.setBounds(145,30,250,100);
         judul.setFont(font);
         jDesktopPane1.add(judul);
-        listComponentMenu.add(judul);
         
-        JLabel playLabel = new JLabel();
+        playLabel = new JLabel();
         Font fontmenu = new Font ("TImes New Roman", Font.PLAIN, 30);
         playLabel.setText("New Game");
         playLabel.setForeground(Color.WHITE);
@@ -59,34 +65,30 @@ public class Game extends javax.swing.JFrame {
         playLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         playLabel.setFont(fontmenu);
         jDesktopPane1.add(playLabel);
-        listComponentMenu.add(playLabel);
         
-        JLabel scoreLabel = new JLabel();
+        scoreLabel = new JLabel();
         scoreLabel.setText("Score Board");
         scoreLabel.setForeground(Color.WHITE);
         scoreLabel.setBounds(170,400,150,20);
         scoreLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         scoreLabel.setFont(fontmenu);
         jDesktopPane1.add(scoreLabel);
-        listComponentMenu.add(scoreLabel);
         
-        JLabel shopLabel = new JLabel();
+        shopLabel = new JLabel();
         shopLabel.setText("Shop");
         shopLabel.setForeground(Color.WHITE);
         shopLabel.setBounds(170,450,150,20);
         shopLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         shopLabel.setFont(fontmenu);
         jDesktopPane1.add(shopLabel);
-        listComponentMenu.add(shopLabel);
         
-        JLabel exitLabel = new JLabel();
+        exitLabel = new JLabel();
         exitLabel.setText("Exit");
         exitLabel.setForeground(Color.WHITE);
         exitLabel.setBounds(170,500,150,20);
         exitLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         exitLabel.setFont(fontmenu);
         jDesktopPane1.add(exitLabel);
-        listComponentMenu.add(exitLabel);
         
         JFrame temp = this;
         
@@ -164,76 +166,52 @@ public class Game extends javax.swing.JFrame {
     }
     
     public void initPlayGame(){
-//        for (int i = 0; i < listComponentMenu.size(); i++) {
-//            jDesktopPane1.remove(listComponentMenu.get(i));
-//        }
-//        
-//        for (int i = 0; i < listComponentMenu.size(); i++) {
-//            listComponentMenu.remove(i);
-//        }
-//        
-//        jDesktopPane1.revalidate();
-//        jDesktopPane1.repaint();
-
         Timer timerJudul = new Timer(10, new ActionListener() {
-            int yPosJudul = listComponentMenu.get(0).getY(); 
+            int yPosJudul = judul.getY(); 
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 yPosJudul -= 2;
-                listComponentMenu.get(0).setLocation(listComponentMenu.get(0).getX(), yPosJudul); 
-                if (yPosJudul <= -listComponentMenu.get(0).getHeight()) { 
+                judul.setLocation(judul.getX(), yPosJudul); 
+                if (yPosJudul <= -judul.getHeight()) { 
                     ((Timer) e.getSource()).stop();
-                    jDesktopPane1.remove(listComponentMenu.get(0));
+                    jDesktopPane1.remove(judul);
                 }
             }
         });
         timerJudul.start(); 
 
-        animateComponent(listComponentMenu,1,true);
-        animateComponent(listComponentMenu,2,false);
-        animateComponent(listComponentMenu,3,false);
-        animateComponent(listComponentMenu,4,false);
-//        jDesktopPane1.remove(listComponentMenu.get(1));
-//        jDesktopPane1.remove(listComponentMenu.get(2));
-//        jDesktopPane1.remove(listComponentMenu.get(3));
-//        jDesktopPane1.remove(listComponentMenu.get(4));
+        animateComponent(playLabel, 1, true);
+        animateComponent(scoreLabel, 2, false);
+        animateComponent(shopLabel, 3, false);
+        animateComponent(exitLabel, 4, false);
     }
     
     public void initScoreBoard(){
-//        for (int i = 0; i < listComponentMenu.size(); i++) {
-//            jDesktopPane1.remove(listComponentMenu.get(i));
-//        }
-//        
-//        for (int i = 0; i < listComponentMenu.size(); i++) {
-//            listComponentMenu.remove(i);
-//        }
-
         Timer timerJudul = new Timer(10, new ActionListener() {
-            int yPosJudul = listComponentMenu.get(0).getY(); 
+            int yPosJudul = judul.getY(); 
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 yPosJudul -= 2;
-                listComponentMenu.get(0).setLocation(listComponentMenu.get(0).getX(), yPosJudul); 
-                if (yPosJudul <= -listComponentMenu.get(0).getHeight()) { 
+                judul.setLocation(judul.getX(), yPosJudul); 
+                if (yPosJudul <= -judul.getHeight()) { 
                     ((Timer) e.getSource()).stop();
-                    jDesktopPane1.remove(listComponentMenu.get(0));
+                    jDesktopPane1.remove(judul);
                 }
             }
         });
         timerJudul.start(); 
 
-        animateComponent(listComponentMenu,1,false);
-        animateComponent(listComponentMenu,2,false);
-        animateComponent(listComponentMenu,3,false);
-        animateComponent(listComponentMenu,4,false);
-//        jDesktopPane1.remove(listComponentMenu.get(1));
-//        jDesktopPane1.remove(listComponentMenu.get(2));
-//        jDesktopPane1.remove(listComponentMenu.get(3));
-//        jDesktopPane1.remove(listComponentMenu.get(4));
+        animateComponent(scoreLabel, 1, true);
+        animateComponent(playLabel, 2, false);
+        animateComponent(shopLabel, 3, false);
+        animateComponent(exitLabel, 4, false);
+
+        int delayMilliseconds = 2200; 
+        Timer timer = new Timer(delayMilliseconds, e -> {
         
-        JLabel judulScore = new JLabel();
+        judulScore = new JLabel();
         judulScore.setText("SCORE");
         Font font = new Font("Arial", Font.BOLD, 60);
         judulScore.setForeground(Color.WHITE);
@@ -241,68 +219,52 @@ public class Game extends javax.swing.JFrame {
         judulScore.setFont(font);
         judulScore.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         jDesktopPane1.add(judulScore);
-        listComponentScore.add(judulScore);
         
-        JButton back = new JButton("BACK");
-        back.setBounds(205,500,100,40);
-        jDesktopPane1.add(back);
-        listComponentScore.add(back);
+        backScore = new JButton("BACK");
+        backScore.setBounds(205,500,100,40);
+        jDesktopPane1.add(backScore);
         
-        back.addActionListener(new ActionListener() {
+        backScore.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < listComponentScore.size(); i++) {
-                    jDesktopPane1.remove(listComponentScore.get(i));
-                }
-
-                for (int i = 0; i < listComponentScore.size(); i++) {
-                    listComponentScore.remove(i);
-                }
-                
+                jDesktopPane1.remove(judulScore);
+                jDesktopPane1.remove(backScore);
                 initGameName();
                 jDesktopPane1.revalidate();
                 jDesktopPane1.repaint();
-            
             }  
         });
         jDesktopPane1.revalidate();
         jDesktopPane1.repaint();
+    });
+    timer.setRepeats(false); // Ensure the timer only runs once
+    timer.start();
     }
     
     public void initShop(){
-//         for (int i = 0; i < listComponentMenu.size(); i++) {
-//            jDesktopPane1.remove(listComponentMenu.get(i));
-//        }
-//        
-//        for (int i = 0; i < listComponentMenu.size(); i++) {
-//            listComponentMenu.remove(i);
-//        }
-        
-            Timer timerJudul = new Timer(10, new ActionListener() {
-            int yPosJudul = listComponentMenu.get(0).getY(); 
+        Timer timerJudul = new Timer(10, new ActionListener() {
+            int yPosJudul = judul.getY(); 
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 yPosJudul -= 2;
-                listComponentMenu.get(0).setLocation(listComponentMenu.get(0).getX(), yPosJudul); 
-                if (yPosJudul <= -listComponentMenu.get(0).getHeight()) { 
+                judul.setLocation(judul.getX(), yPosJudul); 
+                if (yPosJudul <= -judul.getHeight()) { 
                     ((Timer) e.getSource()).stop();
-                    jDesktopPane1.remove(listComponentMenu.get(0));
+                    jDesktopPane1.remove(judul);
                 }
             }
         });
         timerJudul.start(); 
 
-        animateComponent(listComponentMenu,1,false);
-        animateComponent(listComponentMenu,2,false);
-        animateComponent(listComponentMenu,3,false);
-        animateComponent(listComponentMenu,4,false);
-        jDesktopPane1.remove(listComponentMenu.get(1));
-        jDesktopPane1.remove(listComponentMenu.get(2));
-        jDesktopPane1.remove(listComponentMenu.get(3));
-        jDesktopPane1.remove(listComponentMenu.get(4));
-    
-        JLabel judulShop = new JLabel();
+        animateComponent(shopLabel, 1, true);
+        animateComponent(playLabel, 2, false);
+        animateComponent(scoreLabel, 3, false);
+        animateComponent(exitLabel, 4, false);
+        
+         int delayMilliseconds = 2200; 
+        Timer timer = new Timer(delayMilliseconds, e -> {
+        judulShop = new JLabel();
         judulShop.setText("SHOP");
         Font font = new Font("Arial", Font.BOLD, 60);
         judulShop.setForeground(Color.WHITE);
@@ -310,48 +272,41 @@ public class Game extends javax.swing.JFrame {
         judulShop.setFont(font);
         judulShop.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         jDesktopPane1.add(judulShop);
-        listComponentShop.add(judulShop);
         
-        JButton back = new JButton("BACK");
-        back.setBounds(205,500,100,40);
-        jDesktopPane1.add(back);
-        listComponentShop.add(back);
+        backShop = new JButton("BACK");
+        backShop.setBounds(205,500,100,40);
+        jDesktopPane1.add(backShop);
         
-        back.addActionListener(new ActionListener() {
+        backShop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < listComponentShop.size(); i++) {
-                    jDesktopPane1.remove(listComponentShop.get(i));
-                }
-
-                for (int i = 0; i < listComponentShop.size(); i++) {
-                    listComponentShop.remove(i);
-                }
-                
+                jDesktopPane1.remove(judulShop);
+                jDesktopPane1.remove(backShop);
                 initGameName();
                 jDesktopPane1.revalidate();
                 jDesktopPane1.repaint();
-            
             }  
         });
         jDesktopPane1.revalidate();
         jDesktopPane1.repaint();
+        });
+    timer.setRepeats(false); // Ensure the timer only runs once
+    timer.start();
     }
     
-    
-    private void animateComponent(ArrayList<Component> listComponent, int index, boolean play) {
+    private void animateComponent(JLabel component, int index, boolean play) {
         Timer timer = new Timer(10, new ActionListener() {
-            int yPos = listComponent.get(index).getY();
+            int yPos = component.getY();
             
             @Override
             public void actionPerformed(ActionEvent e) {
                 yPos += 2; 
-                listComponent.get(index).setLocation(listComponent.get(index).getX(), yPos);
+                component.setLocation(component.getX(), yPos);
                 if (yPos >= jDesktopPane1.getHeight()) {
                     ((Timer) e.getSource()).stop();
-                    jDesktopPane1.remove(listComponent.get(index));
+                    jDesktopPane1.remove(component);
                     if(play){
-                        panggilPlay();
+                        // Do something for play action
                     }
                 }
             }
