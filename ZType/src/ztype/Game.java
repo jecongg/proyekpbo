@@ -185,6 +185,13 @@ public class Game extends javax.swing.JFrame {
         animateComponent(scoreLabel, 2, false);
         animateComponent(shopLabel, 3, false);
         animateComponent(exitLabel, 4, false);
+        
+        int delayMilliseconds = 2200; 
+        Timer timer = new Timer(delayMilliseconds, e -> {
+            Play p = new Play(new DefaultShip(), jDesktopPane1, this);
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
     
     public void initScoreBoard(){
@@ -262,36 +269,36 @@ public class Game extends javax.swing.JFrame {
         animateComponent(scoreLabel, 3, false);
         animateComponent(exitLabel, 4, false);
         
-         int delayMilliseconds = 2200; 
+        int delayMilliseconds = 2200; 
         Timer timer = new Timer(delayMilliseconds, e -> {
-        judulShop = new JLabel();
-        judulShop.setText("SHOP");
-        Font font = new Font("Arial", Font.BOLD, 60);
-        judulShop.setForeground(Color.WHITE);
-        judulShop.setBounds(125,30,250,100);
-        judulShop.setFont(font);
-        judulShop.setHorizontalAlignment((int) CENTER_ALIGNMENT);
-        jDesktopPane1.add(judulShop);
-        
-        backShop = new JButton("BACK");
-        backShop.setBounds(205,500,100,40);
-        jDesktopPane1.add(backShop);
-        
-        backShop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                jDesktopPane1.remove(judulShop);
-                jDesktopPane1.remove(backShop);
-                initGameName();
-                jDesktopPane1.revalidate();
-                jDesktopPane1.repaint();
-            }  
+            judulShop = new JLabel();
+            judulShop.setText("SHOP");
+            Font font = new Font("Arial", Font.BOLD, 60);
+            judulShop.setForeground(Color.WHITE);
+            judulShop.setBounds(125,30,250,100);
+            judulShop.setFont(font);
+            judulShop.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+            jDesktopPane1.add(judulShop);
+
+            backShop = new JButton("BACK");
+            backShop.setBounds(205,500,100,40);
+            jDesktopPane1.add(backShop);
+
+            backShop.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    jDesktopPane1.remove(judulShop);
+                    jDesktopPane1.remove(backShop);
+                    initGameName();
+                    jDesktopPane1.revalidate();
+                    jDesktopPane1.repaint();
+                }  
+            });
+            jDesktopPane1.revalidate();
+            jDesktopPane1.repaint();
         });
-        jDesktopPane1.revalidate();
-        jDesktopPane1.repaint();
-        });
-    timer.setRepeats(false); // Ensure the timer only runs once
-    timer.start();
+        timer.setRepeats(false);
+        timer.start();
     }
     
     private void animateComponent(JLabel component, int index, boolean play) {
