@@ -18,13 +18,13 @@ import javax.swing.ImageIcon;
  */
 public class Background extends JDesktopPane{
 
-    @Override
-    protected void paintComponent(Graphics g) {
-         Graphics2D grafik = (Graphics2D) g.create();
-         Image img = new ImageIcon(getClass().getResource("/Image/Galaxy.jpg")).getImage();
-         grafik.drawImage(img, 0, 0, getWidth(),getHeight(),null);
-         grafik.dispose();
-    }
+//    @Override
+//    protected void paintComponent(Graphics g) {
+//         Graphics2D grafik = (Graphics2D) g.create();
+//         Image img = new ImageIcon(getClass().getResource("/Image/Background.jpg")).getImage();
+//         grafik.drawImage(img, 0, 0, getWidth(),getHeight(),null);
+//         grafik.dispose();
+//    }
     
     
 }

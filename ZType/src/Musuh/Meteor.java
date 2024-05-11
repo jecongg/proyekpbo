@@ -11,6 +11,7 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class Meteor extends EnemyParent {
+    
     public Meteor(String kata, JDesktopPane pane, int x){
         this.kata=kata;
         this.x=x;

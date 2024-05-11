@@ -40,4 +40,12 @@ public abstract class EnemyParent {
             return false;
         }
     }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }
