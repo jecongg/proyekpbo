@@ -31,7 +31,7 @@ import javax.swing.Timer;
  * @author Trevis Artagrantdy K
  */
 public class Game extends javax.swing.JFrame {
-      JLabel judul;
+    JLabel judul;
     JLabel playLabel;
     JLabel scoreLabel;
     JLabel shopLabel;
@@ -45,7 +45,16 @@ public class Game extends javax.swing.JFrame {
     
     public Game() {
         initComponents();
+        initawal();
         initGameName();
+    }
+    
+    public void initawal(){
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.pack();
+        this.setTitle("ZType");
     }
     
     public void initGameName(){

@@ -101,13 +101,10 @@ public class Play <T extends PesawatParent> {
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = bufferedImage.createGraphics();
 
-        // Set the rotation angle
         AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(angleDegrees), width / 2.0, height / 2.0);
 
-        // Apply transformation
         g2d.setTransform(tx);
 
-        // Draw the rotated image
         g2d.drawImage(image, 0, 0, null);
         g2d.dispose();
 
@@ -115,29 +112,40 @@ public class Play <T extends PesawatParent> {
     }
     
     public void rotateSpaceship(int x, int y){
-        double deltaX = xSpace - x + 25;
-        double deltaY = ySpace - y + 25;
-        double targetAngle = Math.toDegrees(Math.atan2(deltaY, deltaX));
-        double angleDiff = targetAngle - angleSpace;
-        angleSpace=angleDiff;
-        labelSpaceship.setIcon(rotateImage(gambarSpaceship.getImage(), angleDiff));
+        double deltaX = x - xSpace;
+        double deltaY = y - ySpace;
+        double targetAngle = Math.toDegrees(Math.atan2(deltaY, deltaX)) + 90;
+        boolean tambah=false;
+        if(angleSpace<=targetAngle){
+            tambah=true;
+        }
+        animasiRotate(targetAngle, angleSpace, tambah);
         
-//                Timer timer = new Timer(50, new ActionListener() {
-//            private double rotationAngle = 0;
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                // Update the rotation angle
-//                rotationAngle += 5;
-//                if (rotationAngle >= 360) {
-//                    rotationAngle -= 360;
-//                }
-//
-//                // Redraw the panel
-//                tes.setIcon(rotateImage(gambarSpaceship.getImage(), rotationAngle));
-//            }
-//        });
-//        timer.start();
+        angleSpace=targetAngle;
+    }
+    
+    public void animasiRotate(double target, double current, boolean tambah){
+        Timer timer = new Timer(5, new ActionListener() {
+            private double rotationAngle = current;
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(tambah){
+                    rotationAngle += 1;
+                    if (rotationAngle >= target) {
+                        ((Timer) e.getSource()).stop();
+                    }
+                }
+                else{
+                    rotationAngle -= 1;
+                    if (rotationAngle <= target) {
+                        ((Timer) e.getSource()).stop();
+                    }
+                }
+                labelSpaceship.setIcon(rotateImage(gambarSpaceship.getImage(), rotationAngle));
+            }
+        });
+        timer.start();
     }
     
     public void initAwal(){
@@ -147,6 +155,7 @@ public class Play <T extends PesawatParent> {
         xSpace=223;
         ySpace=510;
         labelSpaceship.setBounds(223, 510, 50, 50);
+
         panel.add(labelSpaceship);
         
         frame.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -169,7 +178,7 @@ public class Play <T extends PesawatParent> {
             }
             if(typed == current.getChar()){
                 current.kurangHuruf();
-                rotateSpaceship(current.getX(), current.getY());
+                rotateSpaceship(current.getX()+current.getWidth()/2, current.getY());
             }
         }
         else{
@@ -189,12 +198,63 @@ public class Play <T extends PesawatParent> {
         wave++;
         System.out.println("Wave " + wave);
         Random r = new Random();
-        for(int i=0; i<jumlahMeteor; i++){
-            int gacha=r.nextInt(kataMeteor.size());
-            int x =r.nextInt(300);
-            Meteor m = new Meteor(kataMeteor.get(gacha), panel, x);
-            listEnemy.add(m);
-        }
+        
+        Timer t = new Timer(300, new ActionListener() {
+            int tempMeteor=jumlahMeteor;
+            int tempBesar=jumlahPesawatBesar;
+            int tempBiasa=jumlahPesawatBiasa;
+            boolean pertama=true;
+            ArrayList<String> list=new ArrayList<>();
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(pertama){
+                    list.add("Meteor");
+                    list.add("Besar");
+                    list.add("Biasa");
+                    pertama=false;
+                }
+                int gacha=r.nextInt(list.size());
+                if(list.get(gacha).equals("Meteor")){
+                    tambahMeteor();
+                    tempMeteor--;
+                    if(tempMeteor==0){
+                        list.remove("Meteor");
+                    }
+                }
+                else if(list.get(gacha).equals("Biasa")){
+                    tambahPesawatBiasa();
+                    tempBiasa--;
+                    if(tempBiasa==0){
+                        list.remove("Biasa");
+                    }
+                }
+                else{
+                    tambahPesawatBesar();
+                    tempBesar--;
+                    if(tempBesar==0){
+                        list.remove("Besar");
+                    }
+                }
+            }
+        });
+        t.start();
     }
     
+    public void tambahMeteor(){
+        Random r = new Random();
+        int gacha=r.nextInt(kataMeteor.size());
+        int x = r.nextInt(500);
+
+        Meteor m = new Meteor(kataMeteor.get(gacha), panel, x);
+        listEnemy.add(m);
+    }
+    
+    public void tambahPesawatBiasa(){
+        
+    }
+    
+    public void tambahPesawatBesar(){
+        
+    }
 }

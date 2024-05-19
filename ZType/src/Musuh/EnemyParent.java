@@ -6,6 +6,7 @@
 package Musuh;
 
 import java.awt.Color;
+import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -16,9 +17,11 @@ import javax.swing.SwingConstants;
  */
 public abstract class EnemyParent {
     protected String kata;
-    protected int x, y, count;
+    protected int x, y, count, width;
     protected JDesktopPane pane;
     protected JLabel label;
+    protected ImageIcon gambar;
+    protected JLabel gambarLabel;
 
     public char getChar() {
         return kata.charAt(count);
@@ -28,13 +31,13 @@ public abstract class EnemyParent {
         count++;
         if(count>=kata.length()){
             pane.remove(label);
+            pane.remove(gambarLabel);
             pane.repaint();
             return true;
         }
         else{
             pane.setComponentZOrder(label, 0);
             label.setText(kata.substring(count, kata.length()));
-//            label.setHorizontalAlignment(SwingConstants.CENTER);
             label.setForeground(Color.ORANGE);
             pane.repaint();
             return false;
@@ -47,5 +50,9 @@ public abstract class EnemyParent {
 
     public int getY() {
         return y;
+    }
+
+    public int getWidth() {
+        return width;
     }
 }
