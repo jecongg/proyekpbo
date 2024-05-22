@@ -1,5 +1,6 @@
 package Projectile;
 
+import Musuh.EnemyParent;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,10 +15,12 @@ public class Laser extends JPanel {
     private int projectileX;
     private int projectileY;
     private int projectileSpeed = 5;
+    private EnemyParent target;
 
-    public Laser(int x, int y) {
+    public Laser(int x, int y, EnemyParent target) {
         projectileX=x;
         projectileY=y;
+        this.target=target;
         
         try {
             projectileImage = ImageIO.read(new File("src/Image/laser.png"));
@@ -25,15 +28,17 @@ public class Laser extends JPanel {
             e.printStackTrace();
         }
 
-        Timer timer = new Timer(20, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                projectileX += projectileSpeed;
-                
-                repaint();
-            }
-        });
-        timer.start();
+        //Ubah code seng iki, gpt en ae iso haruse
+        
+//        Timer timer = new Timer(20, new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                projectileX += projectileSpeed;
+//                
+//                repaint();
+//            }
+//        });
+//        timer.start();
     }
 
     @Override
