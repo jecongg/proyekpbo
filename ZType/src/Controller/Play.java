@@ -57,8 +57,8 @@ public class Play <T extends PesawatParent> {
         this.frame = frame;
         angleSpace=0;
         wave=0;
-        jumlahMeteor=4;
-        jumlahPesawatBiasa=0;
+        jumlahMeteor=0;
+        jumlahPesawatBiasa=1;
         jumlahPesawatBesar=0;
         current=null;
         initAwal();
@@ -178,9 +178,11 @@ public class Play <T extends PesawatParent> {
                     current=listEnemy.get(i);
                 }
             }
-            if(typed == current.getChar()){
-                current.kurangHuruf();
-                rotateSpaceship(current.getX()+current.getWidth()/2, current.getY());
+            if(current!=null){
+                if(typed == current.getChar()){
+                    current.kurangHuruf();
+                    rotateSpaceship(current.getX()+current.getWidth()/2, current.getY());
+                }
             }
         }
         else{
@@ -210,39 +212,49 @@ public class Play <T extends PesawatParent> {
             
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(!pertama && list.size()==0){
+                    ((Timer)e.getSource()).stop();
+                }
                 if(pertama){
-                    list.add("Meteor");
-                    list.add("Besar");
-                    list.add("Biasa");
+                    if(tempBesar>0){
+                        list.add("Besar");
+                    }
+                    if(tempBiasa>0){
+                        list.add("Biasa");
+                    }
+                    if(tempMeteor>0){
+                        list.add("Meteor");
+                    }
                     pertama=false;
                 }
-                int gacha=r.nextInt(list.size());
-                if(list.get(gacha).equals("Meteor")){
-                    tambahMeteor();
-                    tempMeteor--;
-                    if(tempMeteor==0){
-                        list.remove("Meteor");
+                if(list.size()>0){
+                    int gacha=r.nextInt(list.size());
+                    if(list.get(gacha).equals("Meteor")){
+                        tambahMeteor();
+                        tempMeteor--;
+                        if(tempMeteor==0){
+                            list.remove("Meteor");
+                        }
                     }
-                }
-                else if(list.get(gacha).equals("Biasa")){
-                    tambahPesawatBiasa();
-                    tempBiasa--;
-                    if(tempBiasa==0){
-                        list.remove("Biasa");
+                    else if(list.get(gacha).equals("Biasa")){
+                        tambahPesawatBiasa();
+                        tempBiasa--;
+                        if(tempBiasa==0){
+                            list.remove("Biasa");
+                        }
                     }
-                }
-                else{
-                    tambahPesawatBesar();
-                    tempBesar--;
-                    if(tempBesar==0){
-                        list.remove("Besar");
+                    else{
+                        tambahPesawatBesar();
+                        tempBesar--;
+                        if(tempBesar==0){
+                            list.remove("Besar");
+                        }
                     }
                 }
             }
         });
         t.start();
     }
-    
     
     public void tambahMeteor(){
         Random r = new Random();
@@ -258,16 +270,8 @@ public class Play <T extends PesawatParent> {
         int gacha=r.nextInt(kataPesawat.size());
         int x = r.nextInt(500);
 
-        PesawatBiasa p = new PesawatBiasa(kataPesawat.get(gacha), panel, x, listEnemy);
+        PesawatBiasa p = new PesawatBiasa(kataPesawat.get(gacha), panel, x, listEnemy, kataMeteor);
         listEnemy.add(p);
-    }
-    
-    public void tambahRudal(PesawatBiasa p){
-        Random r = new Random();
-        int gacha=r.nextInt(kataMeteor.size());
-
-        Rudal ru = new Rudal(kataMeteor.get(gacha), panel, p.getX(), p.getY());
-        listEnemy.add(ru);
     }
     
     public void tambahPesawatBesar(){

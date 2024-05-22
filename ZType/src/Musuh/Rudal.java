@@ -17,17 +17,19 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class Rudal extends EnemyParent {
+    double steps;
     
-    public Rudal(String kata, JDesktopPane pane, int x, int y){
+    public Rudal(String kata, JDesktopPane pane, int x, int y, double steps){
         this.kata=kata;
         this.x=x;
         count=0;
         this.y=y;
+        this.steps=steps;
         this.pane=pane;
         width=0;
         init();
         turun();
-        animasiRotate();
+//        animasiRotate();
     }
     
     private void init(){
@@ -44,7 +46,7 @@ public class Rudal extends EnemyParent {
         label.setBounds(x, y, size.width, size.height);
         
         gambarLabel = new JLabel();
-        gambar = new ImageIcon(new ImageIcon("src/Image/meteor.png").getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+//        gambar = new ImageIcon(new ImageIcon("src/Image/meteor.png").getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         gambarLabel.setIcon(gambar);
         gambarLabel.setBounds(x+width, 0, 30, 30);
         
@@ -70,19 +72,19 @@ public class Rudal extends EnemyParent {
         return new ImageIcon(bufferedImage);
     }
     
-    public void animasiRotate(){
-        Timer timer = new Timer(2, new ActionListener() {
-            private double rotationAngle = 0;
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                rotationAngle += 1;
-                    
-                gambarLabel.setIcon(rotateImage(gambar.getImage(), rotationAngle));
-            }
-        });
-        timer.start();
-    }
+//    public void animasiRotate(){
+//        Timer timer = new Timer(2, new ActionListener() {
+//            private double rotationAngle = 0;
+//            
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                rotationAngle += 1;
+//                    
+//                gambarLabel.setIcon(rotateImage(gambar.getImage(), rotationAngle));
+//            }
+//        });
+//        timer.start();
+//    }
     
     private void turun() {
         Timer t = new Timer(20, new ActionListener() {
@@ -90,7 +92,6 @@ public class Rudal extends EnemyParent {
             int startY = label.getY();
             int deltaX = 248 - startX;
             int deltaY = 535 - startY;
-            double steps = 300;
             double currentStep = 0;
 
             @Override

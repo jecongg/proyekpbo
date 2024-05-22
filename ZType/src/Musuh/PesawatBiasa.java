@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
@@ -19,14 +20,18 @@ import javax.swing.Timer;
 
 public class PesawatBiasa extends EnemyParent {
     private ArrayList<EnemyParent> listMusuh;
+    private ArrayList<String> listKata;
+    double currentStep;
     
-    public PesawatBiasa(String kata, JDesktopPane pane, int x, ArrayList<EnemyParent> listMusuh){
+    public PesawatBiasa(String kata, JDesktopPane pane, int x, ArrayList<EnemyParent> listMusuh, ArrayList<String> listKata){
         this.kata=kata;
         this.x=x;
         count=0;
         y=0;
         this.pane=pane;
+        currentStep=0;
         this.listMusuh=listMusuh;
+        this.listKata=listKata;
         width=0;
         init();
         turun();
@@ -94,14 +99,18 @@ public class PesawatBiasa extends EnemyParent {
         Timer t = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                tembak=true;
+                tembak();
             }
         });
         t.start();
     }
     
     public void tembak(){
-        
+        Random r = new Random();
+        int gacha=r.nextInt(listKata.size());
+
+        Rudal ru = new Rudal(listKata.get(gacha), pane, x, y, 500-currentStep);
+        listMusuh.add(ru);
     }
     
     private void turun() {
@@ -110,8 +119,7 @@ public class PesawatBiasa extends EnemyParent {
             int startY = label.getY();
             int deltaX = 248 - startX;
             int deltaY = 535 - startY;
-            double steps = 300;
-            double currentStep = 0;
+            double steps = 500;
 
             @Override
             public void actionPerformed(ActionEvent e) {
