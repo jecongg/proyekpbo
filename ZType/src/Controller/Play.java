@@ -7,6 +7,8 @@ package Controller;
 
 import Musuh.EnemyParent;
 import Musuh.Meteor;
+import Musuh.PesawatBiasa;
+import Musuh.Rudal;
 import Pesawat.PesawatParent;
 import java.awt.Color;
 import java.awt.Font;
@@ -241,6 +243,7 @@ public class Play <T extends PesawatParent> {
         t.start();
     }
     
+    
     public void tambahMeteor(){
         Random r = new Random();
         int gacha=r.nextInt(kataMeteor.size());
@@ -251,7 +254,20 @@ public class Play <T extends PesawatParent> {
     }
     
     public void tambahPesawatBiasa(){
-        
+        Random r = new Random();
+        int gacha=r.nextInt(kataPesawat.size());
+        int x = r.nextInt(500);
+
+        PesawatBiasa p = new PesawatBiasa(kataPesawat.get(gacha), panel, x, listEnemy);
+        listEnemy.add(p);
+    }
+    
+    public void tambahRudal(PesawatBiasa p){
+        Random r = new Random();
+        int gacha=r.nextInt(kataMeteor.size());
+
+        Rudal ru = new Rudal(kataMeteor.get(gacha), panel, p.getX(), p.getY());
+        listEnemy.add(ru);
     }
     
     public void tambahPesawatBesar(){

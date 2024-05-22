@@ -39,7 +39,6 @@ public class Laser extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
         if (projectileImage != null) {
             g.drawImage(projectileImage, projectileX, projectileY, null);
         }
@@ -49,7 +48,6 @@ public class Laser extends JPanel {
     public Dimension getPreferredSize() {
         return new Dimension(800, 600);
     }
-
 }
 
 
