@@ -196,7 +196,7 @@ public class Game extends javax.swing.JFrame {
         animateComponent(shopLabel, 3, false);
         animateComponent(exitLabel, 4, false);
         
-        int delayMilliseconds = 1500; 
+        int delayMilliseconds = 1400; 
         Timer timer = new Timer(delayMilliseconds, e -> {
             Play p = new Play(new DefaultShip(), jDesktopPane1, this);
         });
@@ -225,7 +225,7 @@ public class Game extends javax.swing.JFrame {
         animateComponent(shopLabel, 3, false);
         animateComponent(exitLabel, 4, false);
 
-        int delayMilliseconds = 1500; 
+        int delayMilliseconds = 1400; 
         Timer timer = new Timer(delayMilliseconds, e -> {
         
         judulScore = new JLabel();
@@ -254,12 +254,12 @@ public class Game extends javax.swing.JFrame {
         jDesktopPane1.revalidate();
         jDesktopPane1.repaint();
     });
-    timer.setRepeats(false); // Ensure the timer only runs once
+    timer.setRepeats(false); 
     timer.start();
     }
     
     public void initShop() {
-        Shop shop = new Shop(); // Initialize the shop here
+        Shop shop = new Shop(); 
         Timer timerJudul = new Timer(10, new ActionListener() {
             int yPosJudul = judul.getY();
 
@@ -280,9 +280,9 @@ public class Game extends javax.swing.JFrame {
         animateComponent(scoreLabel, 3, false);
         animateComponent(exitLabel, 4, false);
 
-        int delayMilliseconds = 1500;
+        int delayMilliseconds = 1400;
         Timer timer = new Timer(delayMilliseconds, e -> {
-            panggilShop(shop); // Pass the shop instance to panggilShop
+            panggilShop(shop); 
         });
         timer.setRepeats(false);
         timer.start();
@@ -310,13 +310,17 @@ public class Game extends javax.swing.JFrame {
                 jDesktopPane1.remove(shop.buttonLeft);
                 jDesktopPane1.remove(shop.buttonRight);
                 jDesktopPane1.remove(shop.shipImageLabel);
+                jDesktopPane1.remove(shop.coinCountLabel);
+                jDesktopPane1.remove(shop.actionButton);
+                jDesktopPane1.remove(shop.coinImageLabel);
+                
                 initGameName();
                 jDesktopPane1.revalidate();
                 jDesktopPane1.repaint();
             }
         });
 
-        shop.initAwal(jDesktopPane1,this); // Initialize the shop UI elements
+        shop.initAwal(jDesktopPane1, this); 
         jDesktopPane1.revalidate();
         jDesktopPane1.repaint();
     }
@@ -333,7 +337,7 @@ public class Game extends javax.swing.JFrame {
                     ((Timer) e.getSource()).stop();
                     jDesktopPane1.remove(component);
                     if(play){
-                        // Do something for play action
+                        
                     }
                 }
             }

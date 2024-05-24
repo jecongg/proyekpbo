@@ -25,7 +25,8 @@ public class Shop {
     public JButton actionButton; // Menggunakan JButton untuk tombol aksi
     public List<ImageIcon> shipImages;
     public int currentShipIndex;
-    public JLabel coinLabel;
+    public JLabel coinImageLabel;
+    public JLabel coinCountLabel;
 
     public Shop() {
         shipImages = loadShipImages();
@@ -59,24 +60,29 @@ public class Shop {
         shipImageLabel.setBounds(175, 170, 150, 150); 
         shipImageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         jDesktopPane1.add(shipImageLabel);
+       
+        ImageIcon coinIcon = new ImageIcon("src/Image/coin.png");
+        int coinWidth = 30;
+        int coinHeight = 30;
+        Image scaledCoinImage = coinIcon.getImage().getScaledInstance(coinWidth, coinHeight, Image.SCALE_SMOOTH);
+        ImageIcon scaledCoinIcon = new ImageIcon(scaledCoinImage);
+        coinImageLabel = new JLabel(scaledCoinIcon);
+        coinImageLabel.setBounds(jDesktopPane1.getWidth() - 50, 10, coinWidth, coinHeight);
+        jDesktopPane1.add(coinImageLabel);
+        
+        coinCountLabel = new JLabel();
+        String jumCoin = Integer.toString(game.getCoin());
+        coinCountLabel.setText(jumCoin);
+        coinCountLabel.setForeground(Color.WHITE); 
+        coinCountLabel.setBounds(jDesktopPane1.getWidth() - 90, 10, 100, 40); 
+        coinCountLabel.setFont(new Font("Arial", Font.BOLD, 20)); 
+        jDesktopPane1.add(coinCountLabel);
 
         actionButton = new JButton();
         actionButton.setBounds(175, 350, 150, 30);
         actionButton.setFont(new Font("Arial", Font.PLAIN, 12)); 
         jDesktopPane1.add(actionButton);
-        
-//        ImageIcon coinIcon = new ImageIcon("src/Image/coin.png"); // Ganti path dengan path sebenarnya
-//        JLabel coinImg = new JLabel(coinIcon);
-//        coinLabel.setBounds(jDesktopPane1.getWidth() - 50, 10, 30, 30); // Atur posisi dan ukuran gambar koin
-//        jDesktopPane1.add(coinImg);
-        
-        coinLabel = new JLabel();
-        String jumCoin = Integer.toString(game.getCoin());
-        coinLabel.setText(jumCoin);// Ambil nilai koin dari objek Game
-        coinLabel.setBounds(200, 10, 50, 30);
-        coinLabel.setBackground(Color.WHITE);// Atur posisi dan ukuran label jumlah koin
-        jDesktopPane1.add(coinLabel);
-        
+
         actionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
