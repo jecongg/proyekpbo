@@ -62,7 +62,7 @@ public class Game extends javax.swing.JFrame {
         Font font = new Font("Arial", Font.BOLD, 60);
         judul.setText("ZTYPE");
         judul.setForeground(Color.WHITE);
-        judul.setBounds(145,30,250,100);
+        judul.setBounds(155,30,250,100);
         judul.setFont(font);
         jDesktopPane1.add(judul);
         
@@ -70,7 +70,7 @@ public class Game extends javax.swing.JFrame {
         Font fontmenu = new Font ("TImes New Roman", Font.PLAIN, 30);
         playLabel.setText("New Game");
         playLabel.setForeground(Color.WHITE);
-        playLabel.setBounds(170,350, 150, 20);
+        playLabel.setBounds(180,350, 150, 20);
         playLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         playLabel.setFont(fontmenu);
         jDesktopPane1.add(playLabel);
@@ -78,7 +78,7 @@ public class Game extends javax.swing.JFrame {
         scoreLabel = new JLabel();
         scoreLabel.setText("Score Board");
         scoreLabel.setForeground(Color.WHITE);
-        scoreLabel.setBounds(170,400,150,20);
+        scoreLabel.setBounds(180,400,150,20);
         scoreLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         scoreLabel.setFont(fontmenu);
         jDesktopPane1.add(scoreLabel);
@@ -86,7 +86,7 @@ public class Game extends javax.swing.JFrame {
         shopLabel = new JLabel();
         shopLabel.setText("Shop");
         shopLabel.setForeground(Color.WHITE);
-        shopLabel.setBounds(170,450,150,20);
+        shopLabel.setBounds(180,450,150,20);
         shopLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         shopLabel.setFont(fontmenu);
         jDesktopPane1.add(shopLabel);
@@ -94,7 +94,7 @@ public class Game extends javax.swing.JFrame {
         exitLabel = new JLabel();
         exitLabel.setText("Exit");
         exitLabel.setForeground(Color.WHITE);
-        exitLabel.setBounds(170,500,150,20);
+        exitLabel.setBounds(180,500,150,20);
         exitLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         exitLabel.setFont(fontmenu);
         jDesktopPane1.add(exitLabel);
@@ -180,7 +180,7 @@ public class Game extends javax.swing.JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                yPosJudul -= 2;
+                yPosJudul -= 3;
                 judul.setLocation(judul.getX(), yPosJudul); 
                 if (yPosJudul <= -judul.getHeight()) { 
                     ((Timer) e.getSource()).stop();
@@ -195,7 +195,7 @@ public class Game extends javax.swing.JFrame {
         animateComponent(shopLabel, 3, false);
         animateComponent(exitLabel, 4, false);
         
-        int delayMilliseconds = 2200; 
+        int delayMilliseconds = 1500; 
         Timer timer = new Timer(delayMilliseconds, e -> {
             Play p = new Play(new DefaultShip(), jDesktopPane1, this);
         });
@@ -209,7 +209,7 @@ public class Game extends javax.swing.JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                yPosJudul -= 2;
+                yPosJudul -= 3;
                 judul.setLocation(judul.getX(), yPosJudul); 
                 if (yPosJudul <= -judul.getHeight()) { 
                     ((Timer) e.getSource()).stop();
@@ -224,7 +224,7 @@ public class Game extends javax.swing.JFrame {
         animateComponent(shopLabel, 3, false);
         animateComponent(exitLabel, 4, false);
 
-        int delayMilliseconds = 2200; 
+        int delayMilliseconds = 1500; 
         Timer timer = new Timer(delayMilliseconds, e -> {
         
         judulScore = new JLabel();
@@ -263,7 +263,7 @@ public class Game extends javax.swing.JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                yPosJudul -= 2;
+                yPosJudul -= 3;
                 judul.setLocation(judul.getX(), yPosJudul); 
                 if (yPosJudul <= -judul.getHeight()) { 
                     ((Timer) e.getSource()).stop();
@@ -278,7 +278,7 @@ public class Game extends javax.swing.JFrame {
         animateComponent(scoreLabel, 3, false);
         animateComponent(exitLabel, 4, false);
         
-        int delayMilliseconds = 2200; 
+        int delayMilliseconds = 1500; 
         Timer timer = new Timer(delayMilliseconds, e -> {
             judulShop = new JLabel();
             judulShop.setText("SHOP");
@@ -316,7 +316,7 @@ public class Game extends javax.swing.JFrame {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                yPos += 2; 
+                yPos += 3; 
                 component.setLocation(component.getX(), yPos);
                 if (yPos >= jDesktopPane1.getHeight()) {
                     ((Timer) e.getSource()).stop();
