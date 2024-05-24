@@ -22,6 +22,8 @@ public class PesawatBiasa extends EnemyParent {
     private ArrayList<EnemyParent> listMusuh;
     private ArrayList<String> listKata;
     double currentStep;
+    Timer tembak;
+    Timer turun;
     
     public PesawatBiasa(String kata, JDesktopPane pane, int x, ArrayList<EnemyParent> listMusuh, ArrayList<String> listKata){
         this.kata=kata;
@@ -36,7 +38,6 @@ public class PesawatBiasa extends EnemyParent {
         init();
         turun();
         nyalakanTembak();
-//        animasiRotate();
     }
     
     private void init(){
@@ -54,14 +55,19 @@ public class PesawatBiasa extends EnemyParent {
         
         
         gambarLabel = new JLabel();
-//        gambar = new ImageIcon(new ImageIcon("src/Image/meteor.png").getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+        gambar = new ImageIcon(new ImageIcon("src/Image/pesawat_biasa.png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
         gambarLabel.setIcon(gambar);
-        gambarLabel.setBounds(x+width, 0, 30, 30);
-        
+        gambarLabel.setBounds(x+width, 0, 50, 50);
         
         pane.add(label);
         pane.add(gambarLabel);
-        
+    }
+
+    @Override
+    public void hapus() {
+        super.hapus();
+        turun.stop();
+        tembak.stop();
     }
     
     public ImageIcon rotateImage(Image image, double angleDegrees) {
@@ -81,28 +87,22 @@ public class PesawatBiasa extends EnemyParent {
         return new ImageIcon(bufferedImage);
     }
     
-    public void animasiRotate(){
-        Timer timer = new Timer(2, new ActionListener() {
-            private double rotationAngle = 0;
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                rotationAngle += 1;
-                    
-                gambarLabel.setIcon(rotateImage(gambar.getImage(), rotationAngle));
-            }
-        });
-        timer.start();
+    public void rotateSpaceship(int x, int y){
+        double deltaX = x - gambarLabel.getX();
+        double deltaY = y - gambarLabel.getY();
+        double targetAngle = Math.toDegrees(Math.atan2(deltaY, deltaX)) + 90;
+        boolean tambah=false;
+        gambarLabel.setIcon(rotateImage(gambar.getImage(), targetAngle));
     }
     
     private void nyalakanTembak(){
-        Timer t = new Timer(3000, new ActionListener() {
+        tembak = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 tembak();
             }
         });
-        t.start();
+        tembak.start();
     }
     
     public void tembak(){
@@ -114,15 +114,18 @@ public class PesawatBiasa extends EnemyParent {
     }
     
     private void turun() {
-        Timer t = new Timer(20, new ActionListener() {
+        turun = new Timer(10, new ActionListener() {
             int startX = label.getX();
             int startY = label.getY();
             int deltaX = 248 - startX;
             int deltaY = 535 - startY;
-            double steps = 500;
+            double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            double speed = 0.7;
+            double steps = distance / speed;
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                rotateSpaceship(248, 538);
                 if (currentStep <= steps) {
                     double progress = currentStep / steps;
                     x = (int) (startX + deltaX * progress);
@@ -135,7 +138,7 @@ public class PesawatBiasa extends EnemyParent {
                 }
             }
         });
-        t.start();
+        turun.start();
     }
     
 }

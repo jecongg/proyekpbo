@@ -1,4 +1,3 @@
-
 package Musuh;
 
 import java.awt.Color;
@@ -17,18 +16,18 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class Rudal extends EnemyParent {
-    double steps;
+    Timer turun;
     
     public Rudal(String kata, JDesktopPane pane, int x, int y, double steps){
         this.kata=kata;
         this.x=x;
         count=0;
         this.y=y;
-        this.steps=steps;
         this.pane=pane;
         width=0;
         init();
         turun();
+        
 //        animasiRotate();
     }
     
@@ -46,14 +45,20 @@ public class Rudal extends EnemyParent {
         label.setBounds(x, y, size.width, size.height);
         
         gambarLabel = new JLabel();
-//        gambar = new ImageIcon(new ImageIcon("src/Image/meteor.png").getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+        gambar = new ImageIcon(new ImageIcon("src/Image/rudal.png").getImage().getScaledInstance(35, 35, Image.SCALE_SMOOTH));
         gambarLabel.setIcon(gambar);
-        gambarLabel.setBounds(x+width, 0, 30, 30);
+        gambarLabel.setBounds(x+width, 0, 35, 35);
         
         pane.add(label);
         pane.add(gambarLabel);
         
     }
+
+    @Override
+    public void hapus() {
+        super.hapus();
+        turun.stop();
+    }    
     
     public ImageIcon rotateImage(Image image, double angleDegrees) {
         int width = image.getWidth(null);
@@ -72,6 +77,13 @@ public class Rudal extends EnemyParent {
         return new ImageIcon(bufferedImage);
     }
     
+    public void rotateSpaceship(int x, int y){
+        double deltaX = x - gambarLabel.getX();
+        double deltaY = y - gambarLabel.getY();
+        double targetAngle = Math.toDegrees(Math.atan2(deltaY, deltaX)) + 90;
+        gambarLabel.setIcon(rotateImage(gambar.getImage(), targetAngle));
+    }
+    
 //    public void animasiRotate(){
 //        Timer timer = new Timer(2, new ActionListener() {
 //            private double rotationAngle = 0;
@@ -87,15 +99,20 @@ public class Rudal extends EnemyParent {
 //    }
     
     private void turun() {
-        Timer t = new Timer(20, new ActionListener() {
+        turun = new Timer(10, new ActionListener() {
             int startX = label.getX();
             int startY = label.getY();
             int deltaX = 248 - startX;
             int deltaY = 535 - startY;
             double currentStep = 0;
+            
+            double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            double speed = 1.4;
+            double steps = distance / speed;
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                rotateSpaceship(248, 538);
                 if (currentStep <= steps) {
                     double progress = currentStep / steps;
                     x = (int) (startX + deltaX * progress);
@@ -108,7 +125,7 @@ public class Rudal extends EnemyParent {
                 }
             }
         });
-        t.start();
+        turun.start();
     }
     
 }
