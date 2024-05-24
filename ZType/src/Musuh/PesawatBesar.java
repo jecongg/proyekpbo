@@ -1,4 +1,3 @@
-
 package Musuh;
 
 import java.awt.Color;
@@ -10,8 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
@@ -19,25 +16,16 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class PesawatBesar extends EnemyParent {
-    private ArrayList<EnemyParent> listMusuh;
-    char[] huruf;
-    double currentStep;
-    Timer tembak;
-    Timer turun;
     
-    public PesawatBesar(String kata, JDesktopPane pane, int x, ArrayList<EnemyParent> listMusuh){
+    public PesawatBesar(String kata, JDesktopPane pane, int x){
         this.kata=kata;
         this.x=x;
         count=0;
         y=0;
         this.pane=pane;
-        currentStep=0;
-        this.listMusuh=listMusuh;
         width=0;
-//        huruf=new char[3]{'a','b'};
         init();
         turun();
-        nyalakanTembak();
     }
     
     private void init(){
@@ -55,22 +43,45 @@ public class PesawatBesar extends EnemyParent {
         
         
         gambarLabel = new JLabel();
-        gambar = new ImageIcon(new ImageIcon("src/Image/pesawat_biasa.png").getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+        gambar = new ImageIcon(new ImageIcon("src/Image/musuh gede.png").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
         gambarLabel.setIcon(gambar);
-        gambarLabel.setBounds(x+width, 0, 30, 30);
+        gambarLabel.setBounds(x+width, 0, 100, 100);
+        
         
         pane.add(label);
         pane.add(gambarLabel);
-    }
-
-    @Override
-    public void hapus() {
-        super.hapus();
-        turun.stop();
-        tembak.stop();
+        
     }
     
-    public ImageIcon rotateImage(Image image, double angleDegrees) {
+
+    
+    private void turun() {
+        Timer t = new Timer(20, new ActionListener() {
+            int startX = label.getX();
+            int startY = label.getY();
+            int deltaX = 248 - startX;
+            int deltaY = 535 - startY;
+            double steps = 300;
+            double currentStep = 0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (currentStep <= steps) {
+                    double progress = currentStep / steps;
+                    x = (int) (startX + deltaX * progress);
+                    y = (int) (startY + deltaY * progress);
+                    label.setLocation(x, y);
+                    gambarLabel.setLocation(x - 10, y + 20);
+                    currentStep++;
+                } else {
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+        });
+        t.start();
+    }
+    
+        public ImageIcon rotateImage(Image image, double angleDegrees) {
         int width = image.getWidth(null);
         int height = image.getHeight(null);
 
@@ -87,58 +98,5 @@ public class PesawatBesar extends EnemyParent {
         return new ImageIcon(bufferedImage);
     }
     
-    public void rotateSpaceship(int x, int y){
-        double deltaX = x - gambarLabel.getX();
-        double deltaY = y - gambarLabel.getY();
-        double targetAngle = Math.toDegrees(Math.atan2(deltaY, deltaX)) + 90;
-        boolean tambah=false;
-        gambarLabel.setIcon(rotateImage(gambar.getImage(), targetAngle));
-    }
-    
-    private void nyalakanTembak(){
-        tembak = new Timer(3000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tembak();
-            }
-        });
-        tembak.start();
-    }
-    
-    public void tembak(){
-//        Random r = new Random();
-//        int gacha=r.nextInt(listKata.size());
-//
-//        Rudal ru = new Rudal(listKata.get(gacha), pane, x, y, 500-currentStep);
-//        listMusuh.add(ru);
-    }
-    
-    private void turun() {
-        turun = new Timer(10, new ActionListener() {
-            int startX = label.getX();
-            int startY = label.getY();
-            int deltaX = 248 - startX;
-            int deltaY = 535 - startY;
-            double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            double speed = 0.7;
-            double steps = distance / speed;
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                rotateSpaceship(248, 538);
-                if (currentStep <= steps) {
-                    double progress = currentStep / steps;
-                    x = (int) (startX + deltaX * progress);
-                    y = (int) (startY + deltaY * progress);
-                    label.setLocation(x, y);
-                    gambarLabel.setLocation(x - 10, y + 20);
-                    currentStep++;
-                } else {
-                    ((Timer) e.getSource()).stop();
-                }
-            }
-        });
-        turun.start();
-    }
-    
 }

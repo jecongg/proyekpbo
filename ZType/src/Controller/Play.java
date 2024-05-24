@@ -7,6 +7,7 @@ package Controller;
 
 import Musuh.EnemyParent;
 import Musuh.Meteor;
+import Musuh.PesawatBesar;
 import Musuh.PesawatBiasa;
 import Musuh.Rudal;
 import Pesawat.PesawatParent;
@@ -57,9 +58,9 @@ public class Play <T extends PesawatParent> {
         this.panel = panel;
         this.frame = frame;
         angleSpace=0;
-        wave=0;
+        wave=1;
         jumlahMeteor=4;
-        jumlahPesawatBiasa=1;
+        jumlahPesawatBiasa=0;
         jumlahPesawatBesar=0;
         current=null;
         initAwal();
@@ -202,7 +203,7 @@ public class Play <T extends PesawatParent> {
     }
     
     public void nextWave(){
-        wave++;
+        
         System.out.println("Wave " + wave);
         Random r = new Random();
         
@@ -256,6 +257,33 @@ public class Play <T extends PesawatParent> {
                 }
             }
         });
+        wave++;
+        if(wave % 3 == 0){
+            jumlahPesawatBiasa++;
+            if(wave == 12){
+                jumlahPesawatBiasa = 3;
+                jumlahPesawatBesar = 1;
+                jumlahMeteor = 0;
+            }
+        }
+        else{
+            jumlahMeteor++;
+            if(wave == 7){
+                jumlahMeteor--;
+                jumlahPesawatBiasa--;
+                jumlahPesawatBesar++;
+            }
+            if(wave == 10){
+                jumlahPesawatBesar = 0;
+                jumlahPesawatBiasa = 0;
+            }
+            if(wave == 11){
+                jumlahPesawatBesar = 0;
+                jumlahPesawatBiasa = 0;
+            }
+            
+           
+        }
         t.start();
     }
     
@@ -278,6 +306,11 @@ public class Play <T extends PesawatParent> {
     }
     
     public void tambahPesawatBesar(){
-        
+        Random r = new Random();
+        int gacha=r.nextInt(kataPesawat.size());
+        int x = r.nextInt(500);
+
+        PesawatBesar pb = new PesawatBesar(kataPesawat.get(gacha), panel, x);
+        listEnemy.add(pb);
     }
 }
