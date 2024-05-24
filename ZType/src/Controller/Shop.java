@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 import java.util.ArrayList;
+import ztype.Game;
 
 /**
  *
@@ -24,6 +25,7 @@ public class Shop {
     public JButton actionButton; // Menggunakan JButton untuk tombol aksi
     public List<ImageIcon> shipImages;
     public int currentShipIndex;
+    public JLabel coinLabel;
 
     public Shop() {
         shipImages = loadShipImages();
@@ -38,7 +40,7 @@ public class Shop {
         return images;
     }
 
-    public void initAwal(JDesktopPane jDesktopPane1) {
+    public void initAwal(JDesktopPane jDesktopPane1, Game game) {
         buttonLeft = new JLabel("<");
         buttonLeft.setForeground(Color.WHITE);
         buttonLeft.setBounds(100, 200, 50, 50);
@@ -62,7 +64,19 @@ public class Shop {
         actionButton.setBounds(175, 350, 150, 30);
         actionButton.setFont(new Font("Arial", Font.PLAIN, 12)); 
         jDesktopPane1.add(actionButton);
-
+        
+//        ImageIcon coinIcon = new ImageIcon("src/Image/coin.png"); // Ganti path dengan path sebenarnya
+//        JLabel coinImg = new JLabel(coinIcon);
+//        coinLabel.setBounds(jDesktopPane1.getWidth() - 50, 10, 30, 30); // Atur posisi dan ukuran gambar koin
+//        jDesktopPane1.add(coinImg);
+        
+        coinLabel = new JLabel();
+        String jumCoin = Integer.toString(game.getCoin());
+        coinLabel.setText(jumCoin);// Ambil nilai koin dari objek Game
+        coinLabel.setBounds(200, 10, 50, 30);
+        coinLabel.setBackground(Color.WHITE);// Atur posisi dan ukuran label jumlah koin
+        jDesktopPane1.add(coinLabel);
+        
         actionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

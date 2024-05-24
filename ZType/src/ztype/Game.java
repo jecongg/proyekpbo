@@ -37,14 +37,14 @@ public class Game extends javax.swing.JFrame {
     JLabel scoreLabel;
     JLabel shopLabel;
     JLabel exitLabel;
-    
     JLabel judulScore;
     JButton backScore;
-    
     JLabel judulShop;
     JButton backShop;
+    int coin;
     
     public Game() {
+        coin=0;
         initComponents();
         initawal();
         initGameName();
@@ -316,7 +316,7 @@ public class Game extends javax.swing.JFrame {
             }
         });
 
-        shop.initAwal(jDesktopPane1); // Initialize the shop UI elements
+        shop.initAwal(jDesktopPane1,this); // Initialize the shop UI elements
         jDesktopPane1.revalidate();
         jDesktopPane1.repaint();
     }
@@ -345,7 +345,14 @@ public class Game extends javax.swing.JFrame {
         Play p = new Play(new DefaultShip(), jDesktopPane1, this);
     }
 
-   
+    public int getCoin() {
+        return coin;
+    }
+
+    public void setCoin(int coin) {
+        this.coin = coin;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
