@@ -17,6 +17,8 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class Meteor extends EnemyParent {
+    Timer rotate;
+    Timer turun;
     
     public Meteor(String kata, JDesktopPane pane, int x){
         this.kata=kata;
@@ -54,6 +56,13 @@ public class Meteor extends EnemyParent {
         pane.add(gambarLabel);
         
     }
+
+    @Override
+    public void hapus() {
+        super.hapus();
+        turun.stop();
+        rotate.stop();
+    }
     
     public ImageIcon rotateImage(Image image, double angleDegrees) {
         int width = image.getWidth(null);
@@ -73,7 +82,7 @@ public class Meteor extends EnemyParent {
     }
     
     public void animasiRotate(){
-        Timer timer = new Timer(2, new ActionListener() {
+        rotate = new Timer(2, new ActionListener() {
             private double rotationAngle = 0;
             
             @Override
@@ -83,18 +92,20 @@ public class Meteor extends EnemyParent {
                 gambarLabel.setIcon(rotateImage(gambar.getImage(), rotationAngle));
             }
         });
-        timer.start();
+        rotate.start();
     }
     
     private void turun() {
-        Timer t = new Timer(20, new ActionListener() {
+        turun = new Timer(10, new ActionListener() {
             int startX = label.getX();
             int startY = label.getY();
             int deltaX = 248 - startX;
             int deltaY = 535 - startY;
-            double steps = 300;
             double currentStep = 0;
-
+            double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            double speed = 1;
+            double steps = distance / speed;
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (currentStep <= steps) {
@@ -109,7 +120,7 @@ public class Meteor extends EnemyParent {
                 }
             }
         });
-        t.start();
+        turun.start();
     }
     
 }

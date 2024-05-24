@@ -30,9 +30,7 @@ public abstract class EnemyParent {
     public boolean kurangHuruf(){
         count++;
         if(count>=kata.length()){
-            pane.remove(label);
-            pane.remove(gambarLabel);
-            pane.repaint();
+            hapus();
             return true;
         }
         else{
@@ -42,6 +40,16 @@ public abstract class EnemyParent {
             pane.repaint();
             return false;
         }
+    }
+
+    public JLabel getGambarLabel() {
+        return gambarLabel;
+    }
+    
+    public void hapus(){
+        pane.remove(label);
+        pane.remove(gambarLabel);
+        pane.repaint();
     }
 
     public int getX() {

@@ -10,6 +10,7 @@ import Musuh.Meteor;
 import Musuh.PesawatBiasa;
 import Musuh.Rudal;
 import Pesawat.PesawatParent;
+import Projectile.Laser;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -57,7 +58,7 @@ public class Play <T extends PesawatParent> {
         this.frame = frame;
         angleSpace=0;
         wave=0;
-        jumlahMeteor=0;
+        jumlahMeteor=4;
         jumlahPesawatBiasa=1;
         jumlahPesawatBesar=0;
         current=null;
@@ -127,19 +128,19 @@ public class Play <T extends PesawatParent> {
     }
     
     public void animasiRotate(double target, double current, boolean tambah){
-        Timer timer = new Timer(5, new ActionListener() {
+        Timer timer = new Timer(1, new ActionListener() {
             private double rotationAngle = current;
             
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(tambah){
-                    rotationAngle += 1;
+                    rotationAngle += 2;
                     if (rotationAngle >= target) {
                         ((Timer) e.getSource()).stop();
                     }
                 }
                 else{
-                    rotationAngle -= 1;
+                    rotationAngle -= 2;
                     if (rotationAngle <= target) {
                         ((Timer) e.getSource()).stop();
                     }
@@ -181,12 +182,14 @@ public class Play <T extends PesawatParent> {
             if(current!=null){
                 if(typed == current.getChar()){
                     current.kurangHuruf();
-                    rotateSpaceship(current.getX()+current.getWidth()/2, current.getY());
+//                    panel.add(new Laser(248, 538, current, panel));
+                    rotateSpaceship(current.getGambarLabel().getX(), current.getGambarLabel().getY());
                 }
             }
         }
         else{
             if(typed == current.getChar()){
+//                panel.add(new Laser(248, 538, current, panel));
                 if(current.kurangHuruf()){
                     listEnemy.remove(current);
                     current=null;
