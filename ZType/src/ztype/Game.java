@@ -6,6 +6,7 @@
 package ztype;
 
 import Controller.Play;
+import Controller.Shop;
 import Pesawat.DefaultShip;
 import java.awt.Button;
 import java.awt.Color;
@@ -257,57 +258,67 @@ public class Game extends javax.swing.JFrame {
     timer.start();
     }
     
-    public void initShop(){
+    public void initShop() {
+        Shop shop = new Shop(); // Initialize the shop here
         Timer timerJudul = new Timer(10, new ActionListener() {
-            int yPosJudul = judul.getY(); 
+            int yPosJudul = judul.getY();
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 yPosJudul -= 3;
-                judul.setLocation(judul.getX(), yPosJudul); 
-                if (yPosJudul <= -judul.getHeight()) { 
+                judul.setLocation(judul.getX(), yPosJudul);
+                if (yPosJudul <= -judul.getHeight()) {
                     ((Timer) e.getSource()).stop();
                     jDesktopPane1.remove(judul);
                 }
             }
         });
-        timerJudul.start(); 
+        timerJudul.start();
 
         animateComponent(shopLabel, 1, true);
         animateComponent(playLabel, 2, false);
         animateComponent(scoreLabel, 3, false);
         animateComponent(exitLabel, 4, false);
-        
-        int delayMilliseconds = 1500; 
+
+        int delayMilliseconds = 1500;
         Timer timer = new Timer(delayMilliseconds, e -> {
-            judulShop = new JLabel();
-            judulShop.setText("SHOP");
-            Font font = new Font("Arial", Font.BOLD, 60);
-            judulShop.setForeground(Color.WHITE);
-            judulShop.setBounds(125,30,250,100);
-            judulShop.setFont(font);
-            judulShop.setHorizontalAlignment((int) CENTER_ALIGNMENT);
-            jDesktopPane1.add(judulShop);
-
-            backShop = new JButton("BACK");
-            backShop.setBounds(205,500,100,40);
-            jDesktopPane1.add(backShop);
-
-            backShop.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    jDesktopPane1.remove(judulShop);
-                    jDesktopPane1.remove(backShop);
-                    initGameName();
-                    jDesktopPane1.revalidate();
-                    jDesktopPane1.repaint();
-                }  
-            });
-            jDesktopPane1.revalidate();
-            jDesktopPane1.repaint();
+            panggilShop(shop); // Pass the shop instance to panggilShop
         });
         timer.setRepeats(false);
         timer.start();
+    }
+
+    public void panggilShop(Shop shop) {
+        judulShop = new JLabel();
+        judulShop.setText("SHOP");
+        Font font = new Font("Arial", Font.BOLD, 60);
+        judulShop.setForeground(Color.WHITE);
+        judulShop.setBounds(125, 30, 250, 100);
+        judulShop.setFont(font);
+        judulShop.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+        jDesktopPane1.add(judulShop);
+
+        backShop = new JButton("BACK");
+        backShop.setBounds(205, 500, 100, 40);
+        jDesktopPane1.add(backShop);
+
+        backShop.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jDesktopPane1.remove(judulShop);
+                jDesktopPane1.remove(backShop);
+                jDesktopPane1.remove(shop.buttonLeft);
+                jDesktopPane1.remove(shop.buttonRight);
+                jDesktopPane1.remove(shop.shipImageLabel);
+                initGameName();
+                jDesktopPane1.revalidate();
+                jDesktopPane1.repaint();
+            }
+        });
+
+        shop.initAwal(jDesktopPane1); // Initialize the shop UI elements
+        jDesktopPane1.revalidate();
+        jDesktopPane1.repaint();
     }
     
     private void animateComponent(JLabel component, int index, boolean play) {
