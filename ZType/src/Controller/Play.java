@@ -12,6 +12,7 @@ import Musuh.PesawatBiasa;
 import Musuh.Rudal;
 import Pesawat.PesawatParent;
 import Projectile.Laser;
+import Projectile.LaserController;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -183,14 +184,16 @@ public class Play <T extends PesawatParent> {
             if(current!=null){
                 if(typed == current.getChar()){
                     current.kurangHuruf();
-//                    panel.add(new Laser(248, 538, current, panel));
+                    LaserController l = new LaserController(248, 538, current, panel);
+                    
+                    panel.repaint();
                     rotateSpaceship(current.getGambarLabel().getX(), current.getGambarLabel().getY());
                 }
             }
         }
         else{
             if(typed == current.getChar()){
-//                panel.add(new Laser(248, 538, current, panel));
+                LaserController l = new LaserController(248, 538, current, panel);
                 if(current.kurangHuruf()){
                     listEnemy.remove(current);
                     current=null;
