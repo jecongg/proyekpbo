@@ -11,7 +11,6 @@ import Musuh.PesawatBesar;
 import Musuh.PesawatBiasa;
 import Musuh.Rudal;
 import Pesawat.PesawatParent;
-import Projectile.Laser;
 import Projectile.LaserController;
 import java.awt.Color;
 import java.awt.Font;
@@ -36,25 +35,30 @@ import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
+import ztype.Game;
 
 
 public class Play <T extends PesawatParent> {
     T player;
     JDesktopPane panel;
-    JFrame frame;
+    Game frame;
     int wave, jumlahMeteor, jumlahPesawatBiasa, jumlahPesawatBesar;
     ArrayList<EnemyParent> listEnemy = new ArrayList<>();
+    ImageIcon[] healthIcon;
     EnemyParent current;
     ArrayList<String> kataMeteor;
     ArrayList<String> kataPesawat;
     ImageIcon gambarSpaceship;
     JLabel labelSpaceship;
+    JLabel labelHealth;
     int xSpace, ySpace;
+    int lives;
     double angleSpace;
 
-    public Play(T player, JDesktopPane panel, JFrame frame){
+    public Play(T player, JDesktopPane panel, Game frame){
         kataMeteor=new ArrayList<>();
         kataPesawat=new ArrayList<>();
+        healthIcon = new ImageIcon[5];
         this.player = player;
         this.panel = panel;
         this.frame = frame;
@@ -63,7 +67,9 @@ public class Play <T extends PesawatParent> {
         jumlahMeteor=4;
         jumlahPesawatBiasa=0;
         jumlahPesawatBesar=0;
+        lives=4;
         current=null;
+        initHealth();
         initAwal();
         readFile();
         nextWave();
@@ -91,12 +97,41 @@ public class Play <T extends PesawatParent> {
         }
     }
     
-    private void panggilMeteor(){
-        Random r = new Random();
-        int x = r.nextInt(400);
-        int gacha = r.nextInt(kataMeteor.size());
-        Meteor m = new Meteor(kataMeteor.get(gacha), panel, x);
-        listEnemy.add(m);
+    private void initHealth(){
+        for(int i=0; i<5; i++){
+            healthIcon[i] = new ImageIcon(new ImageIcon("src/Image/health" + i + ".png").getImage().getScaledInstance(120, 39, Image.SCALE_SMOOTH));
+        }
+        labelHealth = new JLabel();
+        labelHealth.setIcon(healthIcon[4]);
+        labelHealth.setBounds(30, 515, 120, 39);
+        panel.add(labelHealth);
+    }
+    
+    public void kurangHealth(){
+        lives--;
+        labelHealth.setIcon(healthIcon[lives]);
+        if(lives==0){
+            gameOver();
+        }
+    }
+    
+    public void tambahHealth(){
+        lives++;
+        labelHealth.setIcon(healthIcon[lives]);
+    }
+    
+    public void gameOver(){
+        frame.initGameName();
+    }
+    
+    public <T extends EnemyParent> void hapusMusuh(T e){
+        listEnemy.remove(e);
+        if(current==e){
+            current=null;
+        }
+        if(listEnemy.size()==0 && lives>0){
+            nextWave();
+        }
     }
     
     public ImageIcon rotateImage(Image image, double angleDegrees) {
@@ -206,7 +241,6 @@ public class Play <T extends PesawatParent> {
     }
     
     public void nextWave(){
-        
         System.out.println("Wave " + wave);
         Random r = new Random();
         
@@ -295,7 +329,7 @@ public class Play <T extends PesawatParent> {
         int gacha=r.nextInt(kataMeteor.size());
         int x = r.nextInt(500);
 
-        Meteor m = new Meteor(kataMeteor.get(gacha), panel, x);
+        Meteor m = new Meteor(kataMeteor.get(gacha), panel, x, this);
         listEnemy.add(m);
     }
     
@@ -304,7 +338,7 @@ public class Play <T extends PesawatParent> {
         int gacha=r.nextInt(kataPesawat.size());
         int x = r.nextInt(500);
 
-        PesawatBiasa p = new PesawatBiasa(kataPesawat.get(gacha), panel, x, listEnemy, kataMeteor);
+        PesawatBiasa p = new PesawatBiasa(kataPesawat.get(gacha), panel, x, listEnemy, kataMeteor, this);
         listEnemy.add(p);
     }
     
@@ -313,7 +347,7 @@ public class Play <T extends PesawatParent> {
         int gacha=r.nextInt(kataPesawat.size());
         int x = r.nextInt(500);
 
-        PesawatBesar pb = new PesawatBesar(kataPesawat.get(gacha), panel, x);
+        PesawatBesar pb = new PesawatBesar(kataPesawat.get(gacha), panel, x, this);
         listEnemy.add(pb);
     }
 }

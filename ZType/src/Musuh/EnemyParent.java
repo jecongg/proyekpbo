@@ -5,6 +5,7 @@
  */
 package Musuh;
 
+import Controller.Play;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
@@ -22,6 +23,7 @@ public abstract class EnemyParent {
     protected JLabel label;
     protected ImageIcon gambar;
     protected JLabel gambarLabel;
+    protected Play play;
 
     public char getChar() {
         return kata.charAt(count);
@@ -41,6 +43,10 @@ public abstract class EnemyParent {
             return false;
         }
     }
+    
+    public void pause(){
+        
+    }
 
     public JLabel getGambarLabel() {
         return gambarLabel;
@@ -53,11 +59,11 @@ public abstract class EnemyParent {
     }
 
     public int getX() {
-        return x;
+        return gambarLabel.getX();
     }
 
     public int getY() {
-        return y;
+        return gambarLabel.getY();
     }
 
     public int getWidth() {

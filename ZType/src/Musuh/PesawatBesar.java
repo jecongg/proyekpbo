@@ -1,5 +1,6 @@
 package Musuh;
 
+import Controller.Play;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -17,7 +18,8 @@ import javax.swing.Timer;
 
 public class PesawatBesar extends EnemyParent {
     
-    public PesawatBesar(String kata, JDesktopPane pane, int x){
+    public PesawatBesar(String kata, JDesktopPane pane, int x, Play play){
+        this.play=play;
         this.kata=kata;
         this.x=x;
         count=0;
@@ -39,18 +41,23 @@ public class PesawatBesar extends EnemyParent {
         
         Dimension size = label.getPreferredSize();
         width=size.width;
-        label.setBounds(x, y, size.width, size.height);
+        label.setBounds(x-width, y, size.width, size.height);
         
         
         gambarLabel = new JLabel();
         gambar = new ImageIcon(new ImageIcon("src/Image/musuh gede.png").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
         gambarLabel.setIcon(gambar);
-        gambarLabel.setBounds(x+width, 0, 100, 100);
-        
+        gambarLabel.setBounds(x, 0, 100, 100);
+
         
         pane.add(label);
         pane.add(gambarLabel);
         
+    }
+    
+    private void hapusDiriSendiri(){
+        play.hapusMusuh(this);
+        hapus();
     }
     
 
@@ -66,15 +73,18 @@ public class PesawatBesar extends EnemyParent {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currentStep <= steps) {
+                if(currentStep >= steps - 60){
+                    play.kurangHealth();
+                    hapusDiriSendiri();
+                    ((Timer) e.getSource()).stop();
+                }
+                else {
                     double progress = currentStep / steps;
                     x = (int) (startX + deltaX * progress);
                     y = (int) (startY + deltaY * progress);
-                    label.setLocation(x, y);
-                    gambarLabel.setLocation(x - 10, y + 20);
+                    label.setLocation(x + 10, y - 20);
+                    gambarLabel.setLocation(x, y);
                     currentStep++;
-                } else {
-                    ((Timer) e.getSource()).stop();
                 }
             }
         });

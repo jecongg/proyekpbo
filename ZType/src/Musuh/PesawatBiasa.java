@@ -1,6 +1,7 @@
 
 package Musuh;
 
+import Controller.Play;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -25,7 +26,8 @@ public class PesawatBiasa extends EnemyParent {
     Timer tembak;
     Timer turun;
     
-    public PesawatBiasa(String kata, JDesktopPane pane, int x, ArrayList<EnemyParent> listMusuh, ArrayList<String> listKata){
+    public PesawatBiasa(String kata, JDesktopPane pane, int x, ArrayList<EnemyParent> listMusuh, ArrayList<String> listKata, Play play){
+        this.play=play;
         this.kata=kata;
         this.x=x;
         count=0;
@@ -51,13 +53,13 @@ public class PesawatBiasa extends EnemyParent {
         
         Dimension size = label.getPreferredSize();
         width=size.width;
-        label.setBounds(x, y, size.width, size.height);
+        label.setBounds(x-width, y, size.width, size.height);
         
         
         gambarLabel = new JLabel();
         gambar = new ImageIcon(new ImageIcon("src/Image/pesawat_biasa.png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
         gambarLabel.setIcon(gambar);
-        gambarLabel.setBounds(x+width, 0, 50, 50);
+        gambarLabel.setBounds(x, 0, 50, 50);
         
         pane.add(label);
         pane.add(gambarLabel);
@@ -109,8 +111,13 @@ public class PesawatBiasa extends EnemyParent {
         Random r = new Random();
         int gacha=r.nextInt(listKata.size());
 
-        Rudal ru = new Rudal(listKata.get(gacha), pane, x, y, 500-currentStep);
+        Rudal ru = new Rudal(listKata.get(gacha), pane, x, y, 500-currentStep, play);
         listMusuh.add(ru);
+    }
+    
+    private void hapusDiriSendiri(){
+        play.hapusMusuh(this);
+        hapus();
     }
     
     private void turun() {
@@ -126,15 +133,18 @@ public class PesawatBiasa extends EnemyParent {
             @Override
             public void actionPerformed(ActionEvent e) {
                 rotateSpaceship(248, 538);
-                if (currentStep <= steps) {
+                if(currentStep >= steps - 65){
+                    play.kurangHealth();
+                    hapusDiriSendiri();
+                    ((Timer) e.getSource()).stop();
+                }
+                else {
                     double progress = currentStep / steps;
                     x = (int) (startX + deltaX * progress);
                     y = (int) (startY + deltaY * progress);
-                    label.setLocation(x, y);
-                    gambarLabel.setLocation(x - 10, y + 20);
+                    label.setLocation(x + 10, y - 20);
+                    gambarLabel.setLocation(x, y);
                     currentStep++;
-                } else {
-                    ((Timer) e.getSource()).stop();
                 }
             }
         });

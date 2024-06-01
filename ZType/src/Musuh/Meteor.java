@@ -1,6 +1,7 @@
 
 package Musuh;
 
+import Controller.Play;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -19,17 +20,31 @@ import javax.swing.Timer;
 public class Meteor extends EnemyParent {
     Timer rotate;
     Timer turun;
+    Timer pause;
     
-    public Meteor(String kata, JDesktopPane pane, int x){
+    public Meteor(String kata, JDesktopPane pane, int x, Play play){
+        this.play=play;
         this.kata=kata;
         this.x=x;
         count=0;
         y=0;
         this.pane=pane;
         width=0;
+        initPause();
         init();
         turun();
         animasiRotate();
+    }
+    
+    private void initPause(){
+        pause= new Timer(2000, new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                turun.start();
+                ((Timer) e.getSource()).stop();
+            }
+        });
     }
     
     private void init(){
@@ -43,13 +58,13 @@ public class Meteor extends EnemyParent {
         
         Dimension size = label.getPreferredSize();
         width=size.width;
-        label.setBounds(x, y, size.width, size.height);
+        label.setBounds(x-width, y, size.width, size.height);
         
         
         gambarLabel = new JLabel();
         gambar = new ImageIcon(new ImageIcon("src/Image/meteor.png").getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
         gambarLabel.setIcon(gambar);
-        gambarLabel.setBounds(x+width, 0, 30, 30);
+        gambarLabel.setBounds(x, 0, 30, 30);
         
         
         pane.add(label);
@@ -62,6 +77,18 @@ public class Meteor extends EnemyParent {
         super.hapus();
         turun.stop();
         rotate.stop();
+        pause.stop();
+    }
+
+    @Override
+    public void pause() {
+//        turun.stop();
+//        if(pause.isRunning()){
+//            pause.restart();
+//        }
+//        else{
+//            pause.start();
+//        }
     }
     
     public ImageIcon rotateImage(Image image, double angleDegrees) {
@@ -95,10 +122,15 @@ public class Meteor extends EnemyParent {
         rotate.start();
     }
     
+    private void hapusDiriSendiri(){
+        play.hapusMusuh(this);
+        hapus();
+    }
+    
     private void turun() {
         turun = new Timer(10, new ActionListener() {
-            int startX = label.getX();
-            int startY = label.getY();
+            int startX = gambarLabel.getX();
+            int startY = gambarLabel.getY();
             int deltaX = 248 - startX;
             int deltaY = 535 - startY;
             double currentStep = 0;
@@ -108,15 +140,18 @@ public class Meteor extends EnemyParent {
             
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currentStep <= steps) {
+                if(currentStep >= steps - 53){
+                    play.kurangHealth();
+                    hapusDiriSendiri();
+                    ((Timer) e.getSource()).stop();
+                }
+                else {
                     double progress = currentStep / steps;
                     x = (int) (startX + deltaX * progress);
                     y = (int) (startY + deltaY * progress);
-                    label.setLocation(x, y);
-                    gambarLabel.setLocation(x - 10, y + 20);
+                    label.setLocation(x + 10, y - 20);
+                    gambarLabel.setLocation(x, y);
                     currentStep++;
-                } else {
-                    ((Timer) e.getSource()).stop();
                 }
             }
         });
