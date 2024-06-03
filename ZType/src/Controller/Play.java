@@ -9,19 +9,13 @@ import Musuh.EnemyParent;
 import Musuh.Meteor;
 import Musuh.PesawatBesar;
 import Musuh.PesawatBiasa;
-import Musuh.Rudal;
 import Pesawat.PesawatParent;
 import Projectile.LaserController;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Transparency;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,10 +23,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 import ztype.Game;
@@ -155,6 +147,7 @@ public class Play <T extends PesawatParent> {
         double deltaX = x - xSpace;
         double deltaY = y - ySpace;
         double targetAngle = Math.toDegrees(Math.atan2(deltaY, deltaX)) + 90;
+        targetAngle%=360;
         boolean tambah=false;
         if(angleSpace<=targetAngle){
             tambah=true;
@@ -188,6 +181,13 @@ public class Play <T extends PesawatParent> {
         timer.start();
     }
     
+    public boolean isAlive(){
+        if(lives>0){
+            return true;
+        }
+        return false;
+    }
+    
     public void initAwal(){
         labelSpaceship = new JLabel();
         gambarSpaceship = new ImageIcon(new ImageIcon("src/Image/img_spaceship.png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
@@ -218,11 +218,16 @@ public class Play <T extends PesawatParent> {
             }
             if(current!=null){
                 if(typed == current.getChar()){
-                    current.kurangHuruf();
                     LaserController l = new LaserController(248, 538, current, panel);
-                    
-                    panel.repaint();
                     rotateSpaceship(current.getGambarLabel().getX(), current.getGambarLabel().getY());
+                    if(current.kurangHuruf()){
+                        listEnemy.remove(current);
+                        current=null;
+                        if(listEnemy.size()==0){
+                            nextWave();
+                        }
+                    }
+                    panel.repaint();
                 }
             }
         }
@@ -238,6 +243,7 @@ public class Play <T extends PesawatParent> {
                 }
             }
         }
+        panel.repaint();
     }
     
     public void nextWave(){
@@ -318,10 +324,20 @@ public class Play <T extends PesawatParent> {
                 jumlahPesawatBesar = 0;
                 jumlahPesawatBiasa = 0;
             }
-            
-           
         }
-        t.start();
+        Timer delay = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                t.start();
+                ((Timer)e.getSource()).stop();
+            }
+        });
+        if(wave!=2){
+            delay.start();
+        }
+        else{
+            t.start();
+        }
     }
     
     public void tambahMeteor(){
@@ -347,7 +363,7 @@ public class Play <T extends PesawatParent> {
         int gacha=r.nextInt(kataPesawat.size());
         int x = r.nextInt(500);
 
-        PesawatBesar pb = new PesawatBesar(kataPesawat.get(gacha), panel, x, this);
+        PesawatBesar pb = new PesawatBesar(kataPesawat.get(gacha), panel, x, this, listEnemy);
         listEnemy.add(pb);
     }
 }

@@ -1,7 +1,9 @@
+
 package Musuh;
 
 import Controller.Play;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -16,19 +18,36 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
-public class Rudal extends EnemyParent {
+public class RudalMuter extends EnemyParent {
+    Timer rotate;
     Timer turun;
+    Timer pause;
+    double angle;
     
-    public Rudal(String kata, JDesktopPane pane, int x, int y, Play play){
+    public RudalMuter(String kata, JDesktopPane pane, int x, int y, Play play, double angle){
         this.play=play;
         this.kata=kata;
         this.x=x;
-        count=0;
         this.y=y;
+        this.angle=angle;
+        count=0;
         this.pane=pane;
         width=0;
+        initPause();
         init();
         turun();
+        animasiRotate();
+    }
+    
+    private void initPause(){
+        pause= new Timer(2000, new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                turun.start();
+                ((Timer) e.getSource()).stop();
+            }
+        });
     }
     
     private void init(){
@@ -40,28 +59,43 @@ public class Rudal extends EnemyParent {
         label.setHorizontalAlignment(SwingConstants.RIGHT);
         label.setFont(font);
         
-        sizeGambarX=35;
-        sizeGambarY=35;
+        sizeGambarX=30;
+        sizeGambarY=30;
         
         Dimension size = label.getPreferredSize();
         width=size.width;
         label.setBounds(x-width, y, size.width, size.height);
         
+        
         gambarLabel = new JLabel();
-        gambar = new ImageIcon(new ImageIcon("src/Image/rudal.png").getImage().getScaledInstance(sizeGambarX, sizeGambarY, Image.SCALE_SMOOTH));
+        gambar = new ImageIcon(new ImageIcon("src/Image/peluru_pesawat.png").getImage().getScaledInstance(sizeGambarX, sizeGambarY, Image.SCALE_SMOOTH));
         gambarLabel.setIcon(gambar);
         gambarLabel.setBounds(x, 0, sizeGambarX, sizeGambarY);
         
+        
         pane.add(label);
         pane.add(gambarLabel);
-        rotateSpaceship(248, 538);
+        
     }
 
     @Override
     public void hapus() {
         super.hapus();
+        pause.stop();
         turun.stop();
-    }    
+        rotate.stop();
+    }
+
+    @Override
+    public void pause() {
+        turun.stop();
+        if(pause.isRunning()){
+            pause.restart();
+        }
+        else{
+            pause.start();
+        }
+    }
     
     public ImageIcon rotateImage(Image image, double angleDegrees) {
         int width = image.getWidth(null);
@@ -80,11 +114,18 @@ public class Rudal extends EnemyParent {
         return new ImageIcon(bufferedImage);
     }
     
-    public void rotateSpaceship(int x, int y){
-        double deltaX = x - this.x;
-        double deltaY = y - this.y;
-        double targetAngle = Math.toDegrees(Math.atan2(deltaY, deltaX)) + 90;
-        gambarLabel.setIcon(rotateImage(gambar.getImage(), targetAngle));
+    public void animasiRotate(){
+        rotate = new Timer(2, new ActionListener() {
+            private double rotationAngle = 0;
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rotationAngle += 1;
+                    
+                gambarLabel.setIcon(rotateImage(gambar.getImage(), rotationAngle));
+            }
+        });
+        rotate.start();
     }
     
     private void hapusDiriSendiri(){
@@ -94,49 +135,28 @@ public class Rudal extends EnemyParent {
     
     private void turun() {
         turun = new Timer(10, new ActionListener() {
-            int startX = x;
-            int startY = y;
-            int deltaX = 248 - startX;
-            int deltaY = 535 - startY;
-            double currentStep = 0;
+            double speed=3.4;
             
-            double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            double speed = 1.4;
-            double steps = distance / speed;
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currentStep >= steps - 15) {
-                    if (play.isAlive()) {
-                        play.kurangHealth();
-                        hapusDiriSendiri();
-                        ((Timer) e.getSource()).stop();
-                    }
-                    else {
-                        double progress = currentStep / steps;
-                        x = (int) (startX + deltaX * progress);
-                        y = (int) (startY + deltaY * progress);
-                        int xGambar = x-sizeGambarX/2;
-                        int yGambar = y-sizeGambarY/2;
-                        label.setLocation(xGambar + 10, yGambar - 20);
-                        gambarLabel.setLocation(xGambar, yGambar);
-                        currentStep++;
-                    }
+                x += speed * Math.cos(Math.toRadians(angle));
+                y += speed * Math.sin(Math.toRadians(angle));
+                if(x<=0){
+                    x-=1;
                 }
-                else {
-                    
-                    double progress = currentStep / steps;
-                    x = (int) (startX + deltaX * progress);
-                    y = (int) (startY + deltaY * progress);
-                    int xGambar = x-sizeGambarX/2;
-                    int yGambar = y-sizeGambarY/2;
-                    label.setLocation(xGambar + 10, yGambar - 20);
-                    gambarLabel.setLocation(xGambar, yGambar);
-                    currentStep++;
+                gambarLabel.setLocation(x, y);
+                label.setLocation(x + 10, y - 20);
+                if(x>223 && x<273 && y>510 && y<560){
+                    play.kurangHealth();
+                    hapusDiriSendiri();
+                    ((Timer) e.getSource()).stop();
+                }
+                if (x <= -25 || x > 515 || y > 625) {
+                    hapusDiriSendiri();
+                    ((Timer) e.getSource()).stop();
                 }
             }
         });
         turun.start();
     }
-    
 }

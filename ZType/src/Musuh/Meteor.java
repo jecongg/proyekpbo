@@ -55,17 +55,20 @@ public class Meteor extends EnemyParent {
         label.setOpaque(true);
         label.setHorizontalAlignment(SwingConstants.RIGHT);
         label.setFont(font);
-        
+        int xGambar = x-sizeGambarX/2;
+        int yGambar = y-sizeGambarY/2;
+
         Dimension size = label.getPreferredSize();
         width=size.width;
-        label.setBounds(x-width, y, size.width, size.height);
+        label.setBounds(xGambar + 10, yGambar - 20, size.width, size.height);
         
+        sizeGambarX=30;
+        sizeGambarY=30;
         
         gambarLabel = new JLabel();
-        gambar = new ImageIcon(new ImageIcon("src/Image/meteor.png").getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH));
+        gambar = new ImageIcon(new ImageIcon("src/Image/meteor.png").getImage().getScaledInstance(sizeGambarX, sizeGambarY, Image.SCALE_SMOOTH));
         gambarLabel.setIcon(gambar);
-        gambarLabel.setBounds(x, 0, 30, 30);
-        
+        gambarLabel.setBounds(xGambar, 0, sizeGambarX, sizeGambarY);
         
         pane.add(label);
         pane.add(gambarLabel);
@@ -75,20 +78,20 @@ public class Meteor extends EnemyParent {
     @Override
     public void hapus() {
         super.hapus();
+        pause.stop();
         turun.stop();
         rotate.stop();
-        pause.stop();
     }
 
     @Override
     public void pause() {
-//        turun.stop();
-//        if(pause.isRunning()){
-//            pause.restart();
-//        }
-//        else{
-//            pause.start();
-//        }
+        turun.stop();
+        if(pause.isRunning()){
+            pause.restart();
+        }
+        else{
+            pause.start();
+        }
     }
     
     public ImageIcon rotateImage(Image image, double angleDegrees) {
@@ -138,22 +141,37 @@ public class Meteor extends EnemyParent {
             double speed = 1;
             double steps = distance / speed;
             
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(currentStep >= steps - 53){
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (currentStep >= steps - 20) {
+                if (play.isAlive()) {
                     play.kurangHealth();
                     hapusDiriSendiri();
                     ((Timer) e.getSource()).stop();
-                }
+                } 
                 else {
                     double progress = currentStep / steps;
                     x = (int) (startX + deltaX * progress);
                     y = (int) (startY + deltaY * progress);
-                    label.setLocation(x + 10, y - 20);
-                    gambarLabel.setLocation(x, y);
+                    int xGambar = x-sizeGambarX/2;
+                    int yGambar = y-sizeGambarY/2;
+                    label.setLocation(xGambar + 10, yGambar - 20);
+                    gambarLabel.setLocation(xGambar, yGambar);
                     currentStep++;
                 }
+            } 
+            else {
+                double progress = currentStep / steps;
+                x = (int) (startX + deltaX * progress);
+                y = (int) (startY + deltaY * progress);
+                
+                int xGambar = x-sizeGambarX/2;
+                int yGambar = y-sizeGambarY/2;
+                label.setLocation(xGambar + 10, yGambar - 20);
+                gambarLabel.setLocation(xGambar, yGambar);
+                currentStep++;
             }
+        }
         });
         turun.start();
     }

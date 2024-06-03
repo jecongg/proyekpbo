@@ -18,7 +18,7 @@ import javax.swing.SwingConstants;
  */
 public abstract class EnemyParent {
     protected String kata;
-    protected int x, y, count, width;
+    protected int x, y, count, width, sizeGambarX, sizeGambarY;
     protected JDesktopPane pane;
     protected JLabel label;
     protected ImageIcon gambar;
@@ -33,6 +33,7 @@ public abstract class EnemyParent {
         count++;
         if(count>=kata.length()){
             hapus();
+            pane.repaint();
             return true;
         }
         else{
@@ -42,6 +43,13 @@ public abstract class EnemyParent {
             pane.repaint();
             return false;
         }
+    }
+    
+    public boolean isAlive(){
+        if(count>=kata.length()){
+            return false;
+        }
+        return true;
     }
     
     public void pause(){
@@ -59,11 +67,11 @@ public abstract class EnemyParent {
     }
 
     public int getX() {
-        return gambarLabel.getX();
+        return gambarLabel.getX() + sizeGambarX/2;
     }
 
     public int getY() {
-        return gambarLabel.getY();
+        return gambarLabel.getY() + sizeGambarY/2;
     }
 
     public int getWidth() {

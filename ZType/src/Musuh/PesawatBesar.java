@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
@@ -17,17 +19,25 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 public class PesawatBesar extends EnemyParent {
+    ArrayList<EnemyParent> listMusuh;
+    Timer tembak;
+    Timer turun;
+    Timer pause;
+    int countTembak;
     
-    public PesawatBesar(String kata, JDesktopPane pane, int x, Play play){
+    public PesawatBesar(String kata, JDesktopPane pane, int x, Play play, ArrayList<EnemyParent> listMusuh){
         this.play=play;
         this.kata=kata;
         this.x=x;
+        this.listMusuh=listMusuh;
         count=0;
+        countTembak=0;
         y=0;
         this.pane=pane;
         width=0;
         init();
         turun();
+        nyalakanTembak();
     }
     
     private void init(){
@@ -41,18 +51,26 @@ public class PesawatBesar extends EnemyParent {
         
         Dimension size = label.getPreferredSize();
         width=size.width;
-        label.setBounds(x-width, y, size.width, size.height);
+        label.setBounds(sizeGambarX/2+30, sizeGambarY/2-18, size.width, size.height);
         
-        
+        sizeGambarX=92;
+        sizeGambarY=106;
         gambarLabel = new JLabel();
-        gambar = new ImageIcon(new ImageIcon("src/Image/musuh gede.png").getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+        gambar = new ImageIcon(new ImageIcon("src/Image/musuh gede.png").getImage().getScaledInstance(sizeGambarX, sizeGambarY, Image.SCALE_SMOOTH));
         gambarLabel.setIcon(gambar);
-        gambarLabel.setBounds(x, 0, 100, 100);
-
+        gambarLabel.setBounds(x - sizeGambarX/2, 0, sizeGambarX, sizeGambarY);
         
         pane.add(label);
         pane.add(gambarLabel);
         
+    }
+    
+    @Override
+    public void hapus() {
+        super.hapus();
+//        pause.stop();
+        turun.stop();
+        tembak.stop();
     }
     
     private void hapusDiriSendiri(){
@@ -60,35 +78,82 @@ public class PesawatBesar extends EnemyParent {
         hapus();
     }
     
+    public void tembak() {
+        int banyakPeluru = 12;
+        double startAngle = 0;
+        double endAngle = 180;
+        double angleIncrement = (endAngle - startAngle) / (banyakPeluru-1);
+        String[] huruf = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+        Random r = new Random();
+        for (int i = 0; i < banyakPeluru; i++) {
+            double angle = startAngle + i * angleIncrement;
+            int gacha = r.nextInt(26);
+            RudalMuter rm = new RudalMuter(huruf[gacha], pane, x, y, play, angle);
+            listMusuh.add(rm);
+        }
 
+        pane.repaint();
+    }
+    
+    private void nyalakanTembak(){
+        tembak = new Timer(4500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(countTembak==2){
+                    ((Timer) e.getSource()).stop();
+                }
+                if(play.isAlive()){
+                    countTembak++;
+                    tembak();
+                }
+            }
+        });
+        tembak.start();
+    }
     
     private void turun() {
-        Timer t = new Timer(20, new ActionListener() {
-            int startX = label.getX();
-            int startY = label.getY();
+        turun = new Timer(10, new ActionListener() {
+            int startX = x;
+            int startY = y;
             int deltaX = 248 - startX;
             int deltaY = 535 - startY;
-            double steps = 300;
             double currentStep = 0;
+            double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            double speed = 0.6;
+            double steps = distance / speed;
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(currentStep >= steps - 60){
-                    play.kurangHealth();
-                    hapusDiriSendiri();
-                    ((Timer) e.getSource()).stop();
+                if (currentStep >= steps-15) {
+                    if (play.isAlive()) {
+                        play.kurangHealth();
+                        hapusDiriSendiri();
+                        ((Timer) e.getSource()).stop();
+                    }
+                    else {
+                        double progress = currentStep / steps;
+                        x = (int) (startX + deltaX * progress);
+                        y = (int) (startY + deltaY * progress);
+                        int xGambar = x-sizeGambarX/2;
+                        int yGambar = y-sizeGambarY/2;
+                        label.setLocation(xGambar + 30, yGambar - 18);
+                        gambarLabel.setLocation(xGambar, yGambar);
+                        currentStep++;
+                    }
                 }
                 else {
                     double progress = currentStep / steps;
                     x = (int) (startX + deltaX * progress);
                     y = (int) (startY + deltaY * progress);
-                    label.setLocation(x + 10, y - 20);
-                    gambarLabel.setLocation(x, y);
+                    int xGambar = x-sizeGambarX/2;
+                    int yGambar = y-sizeGambarY/2;
+                    label.setLocation(xGambar + 30, yGambar - 18);
+                    gambarLabel.setLocation(xGambar, yGambar);
                     currentStep++;
                 }
             }
         });
-        t.start();
+        turun.start();
     }
     
         public ImageIcon rotateImage(Image image, double angleDegrees) {

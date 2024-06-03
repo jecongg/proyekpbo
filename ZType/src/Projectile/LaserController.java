@@ -85,7 +85,9 @@ public class LaserController {
                     projectileX = target.getX();
                     projectileY = target.getY();
                     laserLabel.setLocation((int)projectileX, (int)projectileY);
-                    target.pause();
+                    if(target.isAlive()){
+                        target.pause();
+                    }
                     ((Timer) e.getSource()).stop();
                     pane.remove(laserLabel);
                 } else {

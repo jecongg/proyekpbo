@@ -22,9 +22,11 @@ import javax.swing.Timer;
 public class PesawatBiasa extends EnemyParent {
     private ArrayList<EnemyParent> listMusuh;
     private ArrayList<String> listKata;
-    double currentStep;
     Timer tembak;
     Timer turun;
+    
+    int startX,startY,deltaX,deltaY;
+    double currentStep,distance,speed,steps;
     
     public PesawatBiasa(String kata, JDesktopPane pane, int x, ArrayList<EnemyParent> listMusuh, ArrayList<String> listKata, Play play){
         this.play=play;
@@ -51,18 +53,24 @@ public class PesawatBiasa extends EnemyParent {
         label.setHorizontalAlignment(SwingConstants.RIGHT);
         label.setFont(font);
         
+        sizeGambarX=38;
+        sizeGambarY=85;
+        
+        int xGambar = x-sizeGambarX/2;
+        int yGambar = y-sizeGambarY/2;
+
         Dimension size = label.getPreferredSize();
         width=size.width;
-        label.setBounds(x-width, y, size.width, size.height);
-        
-        
+        label.setBounds(xGambar+10, yGambar-20, size.width, size.height);
+
         gambarLabel = new JLabel();
-        gambar = new ImageIcon(new ImageIcon("src/Image/pesawat_biasa.png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+        gambar = new ImageIcon(new ImageIcon("src/Image/pesawat_biasa.png").getImage().getScaledInstance(sizeGambarX, sizeGambarY, Image.SCALE_SMOOTH));
         gambarLabel.setIcon(gambar);
-        gambarLabel.setBounds(x, 0, 50, 50);
+        gambarLabel.setBounds(xGambar, 0, sizeGambarX, sizeGambarY);
         
         pane.add(label);
         pane.add(gambarLabel);
+        rotateSpaceship(248, 538);
     }
 
     @Override
@@ -101,7 +109,9 @@ public class PesawatBiasa extends EnemyParent {
         tembak = new Timer(3000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tembak();
+                if(play.isAlive()){
+                    tembak();
+                }
             }
         });
         tembak.start();
@@ -110,9 +120,14 @@ public class PesawatBiasa extends EnemyParent {
     public void tembak(){
         Random r = new Random();
         int gacha=r.nextInt(listKata.size());
-
-        Rudal ru = new Rudal(listKata.get(gacha), pane, x, y, 500-currentStep, play);
-        listMusuh.add(ru);
+        double tempStep = currentStep + 50;
+        double progress = tempStep / steps;
+        if(tempStep<steps){
+            int tempX = (int) (startX + deltaX * progress);
+            int tempY = (int) (startY + deltaY * progress);
+            Rudal ru = new Rudal(listKata.get(gacha), pane, (tempX), (tempY), play);
+            listMusuh.add(ru);
+        }
     }
     
     private void hapusDiriSendiri(){
@@ -121,29 +136,44 @@ public class PesawatBiasa extends EnemyParent {
     }
     
     private void turun() {
+        startX = x;
+        startY = y;
+        deltaX = 248 - startX;
+        deltaY = 535 - startY;
+        distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        speed = 0.7;
+        steps = distance / speed;
         turun = new Timer(10, new ActionListener() {
-            int startX = label.getX();
-            int startY = label.getY();
-            int deltaX = 248 - startX;
-            int deltaY = 535 - startY;
-            double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            double speed = 0.7;
-            double steps = distance / speed;
+            
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                rotateSpaceship(248, 538);
-                if(currentStep >= steps - 65){
-                    play.kurangHealth();
-                    hapusDiriSendiri();
-                    ((Timer) e.getSource()).stop();
+                if (currentStep >= steps - 15) {
+                    if (play.isAlive()) {
+                        play.kurangHealth();
+                        hapusDiriSendiri();
+                        ((Timer) e.getSource()).stop();
+                    } 
+                    else {
+                        double progress = currentStep / steps;
+                        x = (int) (startX + deltaX * progress);
+                        y = (int) (startY + deltaY * progress);
+                        int xGambar = x-sizeGambarX/2;
+                        int yGambar = y-sizeGambarY/2;
+                        label.setLocation(xGambar + 10, yGambar - 20);
+                        gambarLabel.setLocation(xGambar, yGambar);
+                        currentStep++;
+                    }
                 }
                 else {
                     double progress = currentStep / steps;
                     x = (int) (startX + deltaX * progress);
                     y = (int) (startY + deltaY * progress);
-                    label.setLocation(x + 10, y - 20);
-                    gambarLabel.setLocation(x, y);
+                    
+                    int xGambar = x-sizeGambarX/2;
+                    int yGambar = y-sizeGambarY/2;
+                    label.setLocation(xGambar + 10, yGambar - 20);
+                    gambarLabel.setLocation(xGambar, yGambar);
                     currentStep++;
                 }
             }
