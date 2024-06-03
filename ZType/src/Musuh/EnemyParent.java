@@ -67,11 +67,11 @@ public abstract class EnemyParent {
     }
 
     public int getX() {
-        return gambarLabel.getX() + sizeGambarX/2;
+        return x - sizeGambarX/2;
     }
 
     public int getY() {
-        return gambarLabel.getY() + sizeGambarY/2;
+        return y - sizeGambarY/2;
     }
 
     public int getWidth() {

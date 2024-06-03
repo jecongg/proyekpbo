@@ -67,8 +67,8 @@ public class LaserController {
     }
     
     public void rotateSpaceship(){
-        double deltaX = projectileX+(height/2) - target.getX();
-        double deltaY = projectileY+(width/2) - target.getY();
+        double deltaX = projectileX - target.getX();
+        double deltaY = projectileY - target.getY();
         double targetAngle = Math.toDegrees(Math.atan2(deltaY, deltaX)) -90;
         laserLabel.setIcon(rotateImage(laserGambar.getImage(), targetAngle));
     }

@@ -198,7 +198,7 @@ public class Game extends javax.swing.JFrame {
         
         int delayMilliseconds = 1400; 
         Timer timer = new Timer(delayMilliseconds, e -> {
-            Play p = new Play(new DefaultShip(), jDesktopPane1, this);
+            Play<DefaultShip> p = new Play(new DefaultShip(), jDesktopPane1, this);
         });
         timer.setRepeats(false);
         timer.start();
