@@ -56,9 +56,9 @@ public class Play <T extends PesawatParent> {
         this.frame = frame;
         angleSpace=0;
         wave=1;
-        jumlahMeteor=4;
-        jumlahPesawatBiasa=0;
-        jumlahPesawatBesar=0;
+        jumlahMeteor=0;
+        jumlahPesawatBiasa=1;
+        jumlahPesawatBesar=1;
         lives=4;
         current=null;
         initHealth();

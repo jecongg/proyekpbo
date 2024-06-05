@@ -29,10 +29,11 @@ public class LaserController {
     private JDesktopPane pane;
     
     public LaserController(int x, int y, EnemyParent target, JDesktopPane pane) {
-        projectileX=x;
-        projectileY=y;
+        
         height=83;
         width=48;
+        projectileX=x-width/2;
+        projectileY=(y-height/2)-5;
         this.target=target;
         this.pane=pane;
         initAwal();
