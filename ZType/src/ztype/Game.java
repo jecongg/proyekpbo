@@ -264,7 +264,7 @@ public class Game extends javax.swing.JFrame {
         Font font = new Font("Arial", Font.BOLD, 60);
         gameOverLabel.setFont(font);
         gameOverLabel.setForeground(Color.RED);
-        gameOverLabel.setBounds((jDesktopPane1.getWidth() - 400) / 2, 250, 400, 100);
+        gameOverLabel.setBounds((jDesktopPane1.getWidth() - 400) / 2, 200, 400, 100);
         gameOverLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
         jDesktopPane1.add(gameOverLabel);
 

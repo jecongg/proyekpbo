@@ -11,6 +11,9 @@ import Musuh.PesawatBesar;
 import Musuh.PesawatBiasa;
 import Pesawat.PesawatParent;
 import Projectile.LaserController;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -26,6 +29,7 @@ import java.util.Scanner;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.Timer;
 import ztype.Game;
 
@@ -33,6 +37,7 @@ import ztype.Game;
 public class Play <T extends PesawatParent> {
     T player;
     JDesktopPane panel;
+    JPanel nextWavePanel;
     Game frame;
     int wave, jumlahMeteor, jumlahPesawatBiasa, jumlahPesawatBesar;
     ArrayList<EnemyParent> listEnemy = new ArrayList<>();
@@ -249,8 +254,9 @@ public class Play <T extends PesawatParent> {
     
     public void nextWave(){
         System.out.println("Wave " + wave);
-        Random r = new Random();
+        animasiNextWave(wave);
         
+        Random r = new Random();
         Timer t = new Timer(300, new ActionListener() {
             int tempMeteor=jumlahMeteor;
             int tempBesar=jumlahPesawatBesar;
@@ -326,6 +332,7 @@ public class Play <T extends PesawatParent> {
                 jumlahPesawatBiasa = 0;
             }
         }
+        
         Timer delay = new Timer(2000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -339,6 +346,67 @@ public class Play <T extends PesawatParent> {
         else{
             t.start();
         }
+    }
+    
+    public void animasiNextWave(int wave){
+        nextWavePanel = new JPanel() {
+            private int yPos = getHeight(); 
+
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+             
+                g.setColor(Color.darkGray); 
+                g.fillRect(0, 0, getWidth(), getHeight());
+
+               
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("Arial", Font.BOLD, 50));
+                String waveText = "Wave " + wave;
+                int textWidth = g.getFontMetrics().stringWidth(waveText);
+                int x = (getWidth() - textWidth) / 2; 
+                int y = yPos + getHeight() / 2;
+                g.drawString(waveText, x, y);
+            }
+        };
+        nextWavePanel.setLayout(null); 
+        nextWavePanel.setBounds(0, panel.getHeight(), panel.getWidth(), 150); 
+        nextWavePanel.setVisible(false); 
+        panel.add(nextWavePanel);
+        Timer animationTimer = new Timer(10, new ActionListener() {
+            private int animationState = 0; 
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (animationState) {
+                    case 0: 
+                        nextWavePanel.setVisible(true);
+                        int targetY = panel.getHeight() / 2 - nextWavePanel.getHeight() / 2;
+                        nextWavePanel.setLocation(0, nextWavePanel.getY() - 3); 
+                        if (nextWavePanel.getY() <= targetY) {
+                            nextWavePanel.setLocation(0, targetY); 
+                            animationState = 1; 
+                        }
+                        break;
+                    case 1:
+                        try {
+                            Thread.sleep(1000); 
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                        animationState = 2; 
+                        break;
+                    case 2: 
+                        nextWavePanel.setLocation(0, nextWavePanel.getY() - 3); 
+                        if (nextWavePanel.getY() + nextWavePanel.getHeight() < 0) {
+                            nextWavePanel.setVisible(false); 
+                            ((Timer) e.getSource()).stop(); 
+                        }
+                        break;
+                }
+                nextWavePanel.repaint(); 
+            }
+        });
+        animationTimer.start(); 
     }
     
     public void tambahMeteor(){
