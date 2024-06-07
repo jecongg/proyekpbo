@@ -59,6 +59,7 @@ public class Game extends javax.swing.JFrame {
     }
     
     public void initGameName(){
+        jDesktopPane1.removeAll();
         judul = new JLabel();
         Font font = new Font("Arial", Font.BOLD, 60);
         judul.setText("ZTYPE");
@@ -256,6 +257,43 @@ public class Game extends javax.swing.JFrame {
     });
     timer.setRepeats(false); 
     timer.start();
+    }
+    
+    public void animasiGameover() {
+        JLabel gameOverLabel = new JLabel("GAME OVER");
+        Font font = new Font("Arial", Font.BOLD, 60);
+        gameOverLabel.setFont(font);
+        gameOverLabel.setForeground(Color.RED);
+        gameOverLabel.setBounds((jDesktopPane1.getWidth() - 400) / 2, 250, 400, 100);
+        gameOverLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+        jDesktopPane1.add(gameOverLabel);
+
+        Timer timer = new Timer(3000, new ActionListener() {
+            int yPos = gameOverLabel.getY();
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                yPos -= 3;
+                gameOverLabel.setLocation(gameOverLabel.getX(), yPos);
+                if (yPos <= -judul.getHeight()) {
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+        });
+        timer.start();
+    }
+    
+    public void gameOver() {
+        animasiGameover();
+
+        Timer delayTimer = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                initGameName();
+            }
+        });
+        delayTimer.setRepeats(false); 
+        delayTimer.start();
     }
     
     public void initShop() {

@@ -103,7 +103,7 @@ public class Play <T extends PesawatParent> {
         lives--;
         labelHealth.setIcon(healthIcon[lives]);
         if(lives==0){
-            gameOver();
+            frame.gameOver();
         }
     }
     
@@ -112,9 +112,10 @@ public class Play <T extends PesawatParent> {
         labelHealth.setIcon(healthIcon[lives]);
     }
     
-    public void gameOver(){
-        frame.initGameName();
-    }
+//    public void gameOver(){
+//        frame.animasiGameover();
+//        frame.initGameName();
+//    }
     
     public <T extends EnemyParent> void hapusMusuh(T e){
         listEnemy.remove(e);

@@ -32,8 +32,8 @@ public class Background extends JDesktopPane{
         Timer timer = new Timer(10, new ActionListener() { // Timer untuk menggerakkan background setiap 10 milidetik
             @Override
             public void actionPerformed(ActionEvent e) {
-                yPos--; // Pergerakan ke atas
-                if (yPos <= -getHeight()) {
+                yPos++; // Pergerakan ke atas
+                if (yPos >= getHeight()) {
                     yPos = 0; // Kembali ke bawah ketika mencapai ujung atas
                 }
                 repaint(); // Memanggil paintComponent untuk menggambar ulang background
@@ -50,8 +50,8 @@ public class Background extends JDesktopPane{
         // Gambar background di posisi yPos
         g.drawImage(background, 0, yPos, getWidth(), getHeight(), this);
         // Gambar background lagi di bawah ketika mencapai ujung atas
-        if (yPos < 0) {
-            g.drawImage(background, 0, yPos + getHeight(), getWidth(), getHeight(), this);
+        if (yPos > 0) {
+            g.drawImage(background, 0, yPos - getHeight(), getWidth(), getHeight(), this);
         }
     }
 
