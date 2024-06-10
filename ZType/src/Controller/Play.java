@@ -51,6 +51,7 @@ public class Play <T extends PesawatParent> {
     int xSpace, ySpace;
     int lives;
     double angleSpace;
+    int score;
 
     public Play(T player, JDesktopPane panel, Game frame){
         kataMeteor=new ArrayList<>();
@@ -65,6 +66,7 @@ public class Play <T extends PesawatParent> {
         jumlahPesawatBiasa=0;
         jumlahPesawatBesar=0;
         lives=4;
+        score=0;
         current=null;
         initHealth();
         initAwal();
@@ -224,6 +226,8 @@ public class Play <T extends PesawatParent> {
             }
             if(current!=null){
                 if(typed == current.getChar()){
+                    score+=10;
+                    frame.updateScoreLabel(score);
                     LaserController l = new LaserController(248, 538, current, panel);
                     rotateSpaceship(current.getGambarLabel().getX(), current.getGambarLabel().getY());
                     if(current.kurangHuruf()){
@@ -239,6 +243,8 @@ public class Play <T extends PesawatParent> {
         }
         else{
             if(typed == current.getChar()){
+                score+=10;
+                frame.updateScoreLabel(score);
                 LaserController l = new LaserController(248, 538, current, panel);
                 if(current.kurangHuruf()){
                     listEnemy.remove(current);

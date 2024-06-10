@@ -41,6 +41,7 @@ public class Game extends javax.swing.JFrame {
     JButton backScore;
     JLabel judulShop;
     JButton backShop;
+    JLabel scoreDisplayLabel; 
     int coin;
     
     public Game() {
@@ -176,6 +177,10 @@ public class Game extends javax.swing.JFrame {
         });
     }
     
+    public void updateScoreLabel(int score) {
+        scoreDisplayLabel.setText("Score: " + score);
+    }
+    
     public void initPlayGame(){
         Timer timerJudul = new Timer(10, new ActionListener() {
             int yPosJudul = judul.getY(); 
@@ -199,6 +204,12 @@ public class Game extends javax.swing.JFrame {
         
         int delayMilliseconds = 1400; 
         Timer timer = new Timer(delayMilliseconds, e -> {
+            Font font = new Font("Arial", Font.BOLD, 25);
+            scoreDisplayLabel = new JLabel("Score: 0");
+            scoreDisplayLabel.setForeground(Color.WHITE);
+            scoreDisplayLabel.setFont(font);
+            scoreDisplayLabel.setBounds(340, 10, 300, 50);  
+            jDesktopPane1.add(scoreDisplayLabel);
             Play<DefaultShip> p = new Play(new DefaultShip(), jDesktopPane1, this);
         });
         timer.setRepeats(false);
