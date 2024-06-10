@@ -43,6 +43,9 @@ public class Game extends javax.swing.JFrame {
     JButton backShop;
     JLabel scoreDisplayLabel; 
     int coin;
+    ArrayList<String> gameData = new ArrayList<>(); 
+    JLabel[] labelLB= new JLabel[5];
+    int gamecount = 1;
     
     public Game() {
         coin=0;
@@ -247,7 +250,15 @@ public class Game extends javax.swing.JFrame {
         judulScore.setBounds(120,30,250,100);
         judulScore.setFont(font);
         judulScore.setHorizontalAlignment((int) CENTER_ALIGNMENT);
-        jDesktopPane1.add(judulScore);
+        jDesktopPane1.add(judulScore);        
+        
+
+        for (int i = 0; i < 5; i++) {
+            if (labelLB[i] != null) {
+                labelLB[i].setBounds(130, 160 + i * 50, 250, 50);
+                jDesktopPane1.add(labelLB[i]);
+            }
+        }
         
         backScore = new JButton("BACK");
         backScore.setBounds(205,500,100,40);
@@ -268,7 +279,7 @@ public class Game extends javax.swing.JFrame {
     });
     timer.setRepeats(false); 
     timer.start();
-    }
+}
     
     public void animasiGameover() {
         JLabel gameOverLabel = new JLabel("GAME OVER");
@@ -305,6 +316,36 @@ public class Game extends javax.swing.JFrame {
         });
         delayTimer.setRepeats(false); 
         delayTimer.start();
+    }
+    
+    public void recordScore(int score) {
+        String gameRecord = gamecount + ". Permainan " + gamecount  + " - " + score;
+        gameData.add(gameRecord); 
+        updateScoreBoard();
+        gamecount++;
+    }
+
+    public void updateScoreBoard() {
+        int startIndex = 0;
+        if (gameData.size() >= 5) {
+            startIndex = gameData.size() - 5;
+        }
+        
+        for (int i = 0; i < labelLB.length; i++) {
+            labelLB[i] = new JLabel();
+        }
+
+        for (int i = 0; i < 5; i++) {
+            if (startIndex + i < gameData.size()) {
+                labelLB[i].setText(gameData.get(startIndex + i));
+                labelLB[i].setForeground(Color.WHITE);
+                Font font = new Font("Arial", Font.BOLD, 25);
+                labelLB[i].setFont(font);
+            } 
+            else {
+                labelLB[i].setText((i + 1) + ". -");
+            }
+        }
     }
     
     public void initShop() {

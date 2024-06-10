@@ -110,6 +110,7 @@ public class Play <T extends PesawatParent> {
         lives--;
         labelHealth.setIcon(healthIcon[lives]);
         if(lives==0){
+            frame.recordScore(score);
             frame.gameOver();
         }
     }
