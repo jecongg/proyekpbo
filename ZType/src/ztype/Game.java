@@ -46,6 +46,7 @@ public class Game extends javax.swing.JFrame {
     ArrayList<String> gameData = new ArrayList<>(); 
     JLabel[] labelLB= new JLabel[5];
     int gamecount = 1;
+    int indeksShip;
     
     public Game() {
         coin=0;
@@ -213,7 +214,8 @@ public class Game extends javax.swing.JFrame {
             scoreDisplayLabel.setFont(font);
             scoreDisplayLabel.setBounds(340, 10, 300, 50);  
             jDesktopPane1.add(scoreDisplayLabel);
-            Play<DefaultShip> p = new Play(new DefaultShip(), jDesktopPane1, this);
+            int equippedShipIndex = getIndeksShip();
+            Play p = new Play(equippedShipIndex, jDesktopPane1, this);
         });
         timer.setRepeats(false);
         timer.start();
@@ -353,7 +355,7 @@ public class Game extends javax.swing.JFrame {
     }
     
     public void initShop() {
-        Shop shop = new Shop(); 
+        Shop shop = new Shop(this); 
         Timer timerJudul = new Timer(10, new ActionListener() {
             int yPosJudul = judul.getY();
 
@@ -438,10 +440,6 @@ public class Game extends javax.swing.JFrame {
         });
         timer.start();
     }
-    
-    private void panggilPlay(){
-        Play p = new Play(new DefaultShip(), jDesktopPane1, this);
-    }
 
     public int getCoin() {
         return coin;
@@ -449,6 +447,14 @@ public class Game extends javax.swing.JFrame {
 
     public void setCoin(int coin) {
         this.coin = coin;
+    }
+
+    public int getIndeksShip() {
+        return indeksShip;
+    }
+
+    public void setIndeksShip(int indeksShip) {
+        this.indeksShip = indeksShip;
     }
     
     @SuppressWarnings("unchecked")

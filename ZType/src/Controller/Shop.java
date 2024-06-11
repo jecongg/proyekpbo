@@ -22,15 +22,22 @@ public class Shop {
     public JLabel buttonLeft;
     public JLabel buttonRight;
     public JLabel shipImageLabel;
-    public JButton actionButton; // Menggunakan JButton untuk tombol aksi
+    public JButton actionButton; 
     public List<ImageIcon> shipImages;
     public int currentShipIndex;
     public JLabel coinImageLabel;
     public JLabel coinCountLabel;
+    public boolean[] shipTerbeli;
+    public Game game;
+    public int shipPakai;
 
-    public Shop() {
+    public Shop(Game game) {
+        this.game= game;
         shipImages = loadShipImages();
         currentShipIndex = 0;
+        shipTerbeli = new boolean[shipImages.size()];
+        shipTerbeli[0] = true;
+        shipPakai = 0;
     }
 
     private List<ImageIcon> loadShipImages() {
@@ -74,7 +81,7 @@ public class Shop {
         String jumCoin = Integer.toString(game.getCoin());
         coinCountLabel.setText(jumCoin);
         coinCountLabel.setForeground(Color.WHITE); 
-        coinCountLabel.setBounds(jDesktopPane1.getWidth() - 90, 10, 100, 40); 
+        coinCountLabel.setBounds(jDesktopPane1.getWidth() - 100, 10, 100, 40); 
         coinCountLabel.setFont(new Font("Arial", Font.BOLD, 20)); 
         jDesktopPane1.add(coinCountLabel);
 
@@ -86,15 +93,7 @@ public class Shop {
         actionButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (currentShipIndex == 0) {
-                    
-                } 
-                else if (currentShipIndex == 1) {
-                   
-                } 
-                else if (currentShipIndex == 2) {
-                   
-                }
+                handleActionButtonPress();
             }
         });
 
@@ -145,15 +144,62 @@ public class Shop {
         updateActionButtonText();
     }
 
-    private void updateActionButtonText() {
-        if (currentShipIndex == 0) {
-            actionButton.setText("Equipped");
-        } 
-        else if (currentShipIndex == 1) {
-            actionButton.setText("250 Coins");
-        } 
-        else if (currentShipIndex == 2) {
-            actionButton.setText("500 Coins");
+     private void updateActionButtonText() {
+        if (shipTerbeli[currentShipIndex]) {
+            if (currentShipIndex == shipPakai) {
+                actionButton.setText("Equipped");
+            } else {
+                actionButton.setText("Equip");
+            }
+        } else {
+            if (currentShipIndex == 1) {
+                actionButton.setText("250 Coins");
+            } else if (currentShipIndex == 2) {
+                actionButton.setText("500 Coins");
+            }
         }
     }
+
+    private void purchaseShip() {
+        int cost = 0;
+        if (currentShipIndex == 1) {
+            cost = 250;
+        } else if (currentShipIndex == 2) {
+            cost = 500;
+        }
+
+        if (game.getCoin() >= cost) {
+            game.updateCoin(-cost);
+            shipTerbeli[currentShipIndex] = true;
+            coinCountLabel.setText(Integer.toString(game.getCoin()));
+            updateActionButtonText();
+        } else {
+            JOptionPane.showMessageDialog(null, "Not enough coins to purchase this ship.");
+        }
+    }
+    
+    private void handleActionButtonPress() {
+        if (shipTerbeli[currentShipIndex]) {
+            equipShip();
+        } 
+        else {
+            purchaseShip();
+        }
+    }
+    
+    private void equipShip() {
+        shipPakai = currentShipIndex;
+        game.setIndeksShip(shipPakai);
+        JOptionPane.showMessageDialog(null, "Ship equipped!");
+        updateActionButtonText();
+    }
+
+    public int getShipPakai() {
+        return shipPakai;
+    }
+
+    public void setShipPakai(int shipPakai) {
+        this.shipPakai = shipPakai;
+    }
+    
 }

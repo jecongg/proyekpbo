@@ -40,6 +40,7 @@ public class Play <T extends PesawatParent> {
     JPanel nextWavePanel;
     Game frame;
     int wave, jumlahMeteor, jumlahPesawatBiasa, jumlahPesawatBesar;
+    int indeksShipPakai;
     ArrayList<EnemyParent> listEnemy = new ArrayList<>();
     ImageIcon[] healthIcon;
     EnemyParent current;
@@ -53,7 +54,8 @@ public class Play <T extends PesawatParent> {
     double angleSpace;
     int score;
 
-    public Play(T player, JDesktopPane panel, Game frame){
+    public Play(int indeksShipPakai , JDesktopPane panel, Game frame){
+        this.indeksShipPakai = indeksShipPakai;
         kataMeteor=new ArrayList<>();
         kataPesawat=new ArrayList<>();
         healthIcon = new ImageIcon[5];
@@ -111,7 +113,7 @@ public class Play <T extends PesawatParent> {
         labelHealth.setIcon(healthIcon[lives]);
         if(lives==0){
             frame.recordScore(score);
-            frame.updateCoin(score / 100);
+            frame.updateCoin(score / 1);
             frame.gameOver();
         }
     }
@@ -195,7 +197,22 @@ public class Play <T extends PesawatParent> {
     
     public void initAwal(){
         labelSpaceship = new JLabel();
-        gambarSpaceship = new ImageIcon(new ImageIcon("src/Image/img_spaceship.png").getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+        String imagePath = "";
+        switch (indeksShipPakai) {
+            case 0:
+                imagePath = "src/Image/img_spaceship.png";
+                break;
+            case 1:
+                imagePath = "src/Image/img_spaceship2.png";
+                break;
+            case 2:
+                imagePath = "src/Image/img_spaceship3.png";
+                break;
+            default:
+                imagePath = "src/Image/img_spaceship.png";
+                break;
+        }
+        gambarSpaceship = new ImageIcon(new ImageIcon(imagePath).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
         labelSpaceship.setIcon(gambarSpaceship);
         xSpace=223;
         ySpace=510;
