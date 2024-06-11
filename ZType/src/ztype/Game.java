@@ -348,6 +348,10 @@ public class Game extends javax.swing.JFrame {
         }
     }
     
+    public void updateCoin(int tambahCoin) {
+        coin += tambahCoin;
+    }
+    
     public void initShop() {
         Shop shop = new Shop(); 
         Timer timerJudul = new Timer(10, new ActionListener() {

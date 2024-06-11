@@ -111,6 +111,7 @@ public class Play <T extends PesawatParent> {
         labelHealth.setIcon(healthIcon[lives]);
         if(lives==0){
             frame.recordScore(score);
+            frame.updateCoin(score / 100);
             frame.gameOver();
         }
     }
@@ -119,11 +120,6 @@ public class Play <T extends PesawatParent> {
         lives++;
         labelHealth.setIcon(healthIcon[lives]);
     }
-    
-//    public void gameOver(){
-//        frame.animasiGameover();
-//        frame.initGameName();
-//    }
     
     public <T extends EnemyParent> void hapusMusuh(T e){
         listEnemy.remove(e);
