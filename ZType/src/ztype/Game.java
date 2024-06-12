@@ -19,7 +19,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -47,6 +51,7 @@ public class Game extends javax.swing.JFrame {
     JLabel[] labelLB= new JLabel[5];
     int gamecount = 1;
     int indeksShip;
+    Clip clip;
     
     public Game() {
         coin=0;
@@ -63,7 +68,18 @@ public class Game extends javax.swing.JFrame {
         this.setTitle("ZType");
     }
     
-    public void initGameName(){
+    public void initGameName(){ 
+        try {
+            File audioFile = new File("src/Sounds/MenuSound.wav");
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+
+            clip = AudioSystem.getClip();
+            clip.open(audioStream);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        clip.start();
+        
         jDesktopPane1.removeAll();
         judul = new JLabel();
         Font font = new Font("Arial", Font.BOLD, 60);
