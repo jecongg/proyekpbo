@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
@@ -24,7 +25,8 @@ public class PesawatBiasa extends EnemyParent {
     private ArrayList<String> listKata;
     Timer tembak;
     Timer turun;
-    
+    ImageIcon ledakanGambar;
+    JLabel ledakanLabel;
     int startX,startY,deltaX,deltaY;
     double currentStep,distance,speed,steps;
     
@@ -36,6 +38,7 @@ public class PesawatBiasa extends EnemyParent {
         y=0;
         this.pane=pane;
         currentStep=0;
+        ledakanGambar = new ImageIcon(scaleImage(new ImageIcon("src/Image/ledakan.png").getImage(), 200, 200)); 
         this.listMusuh=listMusuh;
         this.listKata=listKata;
         width=0;
@@ -71,6 +74,20 @@ public class PesawatBiasa extends EnemyParent {
         pane.add(label);
         pane.add(gambarLabel);
         rotateSpaceship(248, 538);
+    }
+    
+    private Image scaleImage(Image srcImg, int w, int h) {
+        BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = resizedImg.createGraphics();
+
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        g2.drawImage(srcImg, 0, 0, w, h, null);
+        g2.dispose();
+
+        return resizedImg;
     }
 
     @Override

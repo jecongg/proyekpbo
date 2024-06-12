@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
@@ -21,12 +22,15 @@ public class Meteor extends EnemyParent {
     Timer rotate;
     Timer turun;
     Timer pause;
+    ImageIcon ledakanGambar;
+    JLabel ledakanLabel;
     
     public Meteor(String kata, JDesktopPane pane, int x, Play play){
         this.play=play;
         this.kata=kata;
         this.x=x;
         count=0;
+        ledakanGambar = new ImageIcon(scaleImage(new ImageIcon("src/Image/ledakan.png").getImage(), 200, 200)); 
         y=0;
         this.pane=pane;
         width=0;
@@ -34,6 +38,20 @@ public class Meteor extends EnemyParent {
         init();
         turun();
         animasiRotate();
+    }
+    
+    private Image scaleImage(Image srcImg, int w, int h) {
+        BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = resizedImg.createGraphics();
+
+        g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        g2.drawImage(srcImg, 0, 0, w, h, null);
+        g2.dispose();
+
+        return resizedImg;
     }
     
     private void initPause(){
@@ -77,10 +95,42 @@ public class Meteor extends EnemyParent {
 
     @Override
     public void hapus() {
-        super.hapus();
-        pause.stop();
-        turun.stop();
-        rotate.stop();
+        showExplosion();
+        Timer timer = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeExplosion();
+                Meteor.super.hapus();
+                pause.stop();
+                turun.stop();
+                rotate.stop();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+    
+     private void showExplosion() {
+        // Debugging: Print to check if this method is called
+        System.out.println("Showing explosion");
+
+        ledakanLabel = new JLabel(ledakanGambar);
+        ledakanLabel.setBounds(gambarLabel.getBounds()); // Posisikan gambar ledakan di tempat yang sama dengan gambar pesawat
+        pane.add(ledakanLabel);
+        pane.setComponentZOrder(ledakanLabel, 0); // Pastikan gambar ledakan berada di atas
+        pane.repaint();
+
+        // Debugging: Print to check the bounds and if the label is added
+        System.out.println("Explosion bounds: " + ledakanLabel.getBounds());
+        System.out.println("Explosion label added: " + (pane.getComponentZOrder(ledakanLabel) == 0));
+    }
+
+    private void removeExplosion() {
+        // Debugging: Print to check if this method is called
+        System.out.println("Removing explosion");
+
+        pane.remove(ledakanLabel);
+        pane.repaint();
     }
 
     @Override
