@@ -111,24 +111,14 @@ public class Meteor extends EnemyParent {
     }
     
      private void showExplosion() {
-        // Debugging: Print to check if this method is called
-        System.out.println("Showing explosion");
-
         ledakanLabel = new JLabel(ledakanGambar);
-        ledakanLabel.setBounds(gambarLabel.getBounds()); // Posisikan gambar ledakan di tempat yang sama dengan gambar pesawat
+        ledakanLabel.setBounds(gambarLabel.getBounds());
         pane.add(ledakanLabel);
-        pane.setComponentZOrder(ledakanLabel, 0); // Pastikan gambar ledakan berada di atas
+        pane.setComponentZOrder(ledakanLabel, 0); 
         pane.repaint();
-
-        // Debugging: Print to check the bounds and if the label is added
-        System.out.println("Explosion bounds: " + ledakanLabel.getBounds());
-        System.out.println("Explosion label added: " + (pane.getComponentZOrder(ledakanLabel) == 0));
     }
 
     private void removeExplosion() {
-        // Debugging: Print to check if this method is called
-        System.out.println("Removing explosion");
-
         pane.remove(ledakanLabel);
         pane.repaint();
     }

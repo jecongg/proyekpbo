@@ -91,10 +91,32 @@ public class PesawatBiasa extends EnemyParent {
     }
 
     @Override
-    public void hapus() {
-        super.hapus();
-        turun.stop();
-        tembak.stop();
+     public void hapus() {
+        showExplosion();
+        Timer timer = new Timer(500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                removeExplosion();
+                PesawatBiasa.super.hapus();
+                turun.stop();
+                tembak.stop();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    private void showExplosion() {
+        ledakanLabel = new JLabel(ledakanGambar);
+        ledakanLabel.setBounds(gambarLabel.getBounds()); 
+        pane.add(ledakanLabel);
+        pane.setComponentZOrder(ledakanLabel, 0); 
+        pane.repaint();
+    }
+
+    private void removeExplosion() {
+        pane.remove(ledakanLabel);
+        pane.repaint();
     }
     
     public ImageIcon rotateImage(Image image, double angleDegrees) {

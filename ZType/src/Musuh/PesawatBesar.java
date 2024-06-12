@@ -100,21 +100,14 @@ public class PesawatBesar extends EnemyParent {
     }
 
     private void showExplosion() {
-        System.out.println("Showing explosion");
-
         ledakanLabel = new JLabel(ledakanGambar);
         ledakanLabel.setBounds(gambarLabel.getBounds()); 
         pane.add(ledakanLabel);
         pane.setComponentZOrder(ledakanLabel, 0); 
         pane.repaint();
-
-        System.out.println("Explosion bounds: " + ledakanLabel.getBounds());
-        System.out.println("Explosion label added: " + (pane.getComponentZOrder(ledakanLabel) == 0));
     }
 
     private void removeExplosion() {
-        System.out.println("Removing explosion");
-
         pane.remove(ledakanLabel);
         pane.repaint();
     }
