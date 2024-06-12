@@ -9,6 +9,6 @@ package Pesawat;
  *
  * @author jason
  */
-public class DefaultShip extends PesawatParent{
+public class ShipSatu extends PesawatParent{
     
 }

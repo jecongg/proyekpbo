@@ -7,7 +7,7 @@ package ztype;
 
 import Controller.Play;
 import Controller.Shop;
-import Pesawat.DefaultShip;
+import Pesawat.ShipSatu;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Component;
