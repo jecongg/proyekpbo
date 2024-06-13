@@ -36,8 +36,7 @@ public class LaserController {
     private JDesktopPane pane;
     private Clip clip;
     
-    public LaserController(int x, int y, EnemyParent target, JDesktopPane pane) {
-        
+    public LaserController(int x, int y, EnemyParent target, JDesktopPane pane) {       
         height=83;
         width=48;
         projectileX=x-width/2;
@@ -51,7 +50,6 @@ public class LaserController {
     
     private void initAwal(){
         laserLabel = new JLabel();
-
         laserGambar = new ImageIcon(new ImageIcon("src/Image/laser.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         laserLabel.setIcon(laserGambar);
         laserLabel.setBounds(projectileX, projectileY, width, height);
