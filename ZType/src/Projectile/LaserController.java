@@ -8,6 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
@@ -27,6 +34,7 @@ public class LaserController {
     private EnemyParent target;
     private Timer turun;
     private JDesktopPane pane;
+    private Clip clip;
     
     public LaserController(int x, int y, EnemyParent target, JDesktopPane pane) {
         
@@ -46,6 +54,7 @@ public class LaserController {
 
         laserGambar = new ImageIcon(new ImageIcon("src/Image/laser.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         laserLabel.setIcon(laserGambar);
+        clip.start();
         laserLabel.setBounds(projectileX, projectileY, width, height);
         pane.add(laserLabel);
     }
@@ -103,5 +112,17 @@ public class LaserController {
             }
         });
         turun.start();
+    }
+    
+    
+    public void playSound(String soundFile) {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
+            ex.printStackTrace();
+        }
     }
 }
