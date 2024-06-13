@@ -274,7 +274,9 @@ public class Play <T extends PesawatParent> {
     
     public void nextWave(){
         System.out.println("Wave " + wave);
-        animasiNextWave(wave);
+        if (wave > 1) {
+            animasiNextWave(wave);
+        }
         
         Random r = new Random();
         Timer t = new Timer(300, new ActionListener() {
