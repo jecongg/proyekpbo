@@ -54,9 +54,9 @@ public class LaserController {
 
         laserGambar = new ImageIcon(new ImageIcon("src/Image/laser.png").getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         laserLabel.setIcon(laserGambar);
-        clip.start();
         laserLabel.setBounds(projectileX, projectileY, width, height);
         pane.add(laserLabel);
+        playSound();
     }
     
     public ImageIcon rotateImage(Image image, double angleDegrees) {
@@ -115,9 +115,9 @@ public class LaserController {
     }
     
     
-    public void playSound(String soundFile) {
+    public void playSound() {
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("").getAbsoluteFile());
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/Sounds/tembak.wav").getAbsoluteFile());
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
